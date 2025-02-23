@@ -1,71 +1,76 @@
+import { ERROR_MESSAGE } from "../constant/message.js";
 import { LOTTO_RULE } from "../constant/rule.js";
+import {
+  isDuplicated,
+  isIncludesInArray,
+  isInRange,
+  isInteger,
+  isLessThanMin,
+  isMultipleOfUnit,
+  isNumber,
+  isOneOf,
+  isValidArrayLength,
+} from "../util/validations.js";
+import { throwCustomError } from "../util/throwCustomError.js";
 
 const Validator = {
   validatePurchaseMoney(purchaseMoney) {
-    if (Number.isNaN(purchaseMoney))
-      throw new Error("[ERROR] 구입 금액은 숫자로 입력해야 합니다.");
-
-    if (!Number.isInteger(purchaseMoney))
-      throw new Error("[ERROR] 구입 금액은 정수로 입력해야 합니다.");
-
-    if (purchaseMoney <= 0)
-      throw new Error("[ERROR] 구입 금액은 양수로 입력해야 합니다.");
-
-    if (purchaseMoney % LOTTO_RULE.purchaseUnit !== 0)
-      throw new Error(
-        `[ERROR] 구입 금액은 ${LOTTO_RULE.purchaseUnit}원 단위로 입력해야 합니다.`
-      );
+    if (!isNumber(purchaseMoney))
+      throwCustomError(ERROR_MESSAGE.purchaseMoney.notNumber);
+    if (!isInteger(purchaseMoney))
+      throwCustomError(ERROR_MESSAGE.purchaseMoney.notInteger);
+    if (isLessThanMin(purchaseMoney, 1))
+      throwCustomError(ERROR_MESSAGE.purchaseMoney.notPositive);
+    if (!isMultipleOfUnit(purchaseMoney, LOTTO_RULE.purchaseUnit))
+      throwCustomError(ERROR_MESSAGE.purchaseMoney.notMultipleOfPurchaseUnit);
   },
 
   validateWinningNumbers(winningNumbers) {
     winningNumbers.forEach((winningNumber) => {
-      if (Number.isNaN(winningNumber))
-        throw new Error("[ERROR] 당첨번호는 숫자로 입력해야 합니다.");
-
-      if (!Number.isInteger(winningNumber))
-        throw new Error("[ERROR] 당첨번호는 정수로 입력해야 합니다.");
-
+      if (!isNumber(winningNumber))
+        throwCustomError(ERROR_MESSAGE.winningNumbers.notNumber);
+      if (!isInteger(winningNumber))
+        throwCustomError(ERROR_MESSAGE.winningNumbers.notInteger);
       if (
-        winningNumber < LOTTO_RULE.lottoNumber.min ||
-        winningNumber > LOTTO_RULE.lottoNumber.max
+        !isInRange(
+          winningNumber,
+          LOTTO_RULE.lottoNumber.min,
+          LOTTO_RULE.lottoNumber.max
+        )
       )
-        throw new Error(
-          `[ERROR] 당첨번호는 ${LOTTO_RULE.lottoNumber.min} ~ ${LOTTO_RULE.lottoNumber.max} 사이의 숫자로 입력해야 합니다.`
-        );
+        throwCustomError(ERROR_MESSAGE.winningNumbers.notInRange);
     });
-    if (new Set(winningNumbers).size !== winningNumbers.length) {
-      throw new Error("[ERROR] 당첨번호는 중복없이 입력해야 합니다.");
+
+    if (isDuplicated(winningNumbers)) {
+      throwCustomError(ERROR_MESSAGE.winningNumbers.notUnique);
     }
 
-    if (winningNumbers.length !== LOTTO_RULE.lottoNumber.count)
-      throw new Error(
-        `[ERROR] 당첨번호는 ${LOTTO_RULE.lottoNumber.count}개를 입력해야 합니다.`
-      );
+    if (!isValidArrayLength(winningNumbers, LOTTO_RULE.lottoNumber.count))
+      throwCustomError(ERROR_MESSAGE.winningNumbers.notLottoNumberCount);
   },
 
   validateBonusNumber(winningNumbers, bonusNumber) {
-    if (Number.isNaN(bonusNumber))
-      throw new Error("[ERROR] 보너스번호는 숫자로 입력해야 합니다.");
+    if (!isNumber(bonusNumber))
+      throwCustomError(ERROR_MESSAGE.bonusNumber.notNumber);
 
-    if (!Number.isInteger(bonusNumber))
-      throw new Error("[ERROR] 보너스번호는 정수로 입력해야 합니다.");
+    if (!isInteger(bonusNumber))
+      throwCustomError(ERROR_MESSAGE.bonusNumber.notInteger);
 
     if (
-      bonusNumber < LOTTO_RULE.lottoNumber.min ||
-      bonusNumber > LOTTO_RULE.lottoNumber.max
+      !isInRange(
+        bonusNumber,
+        LOTTO_RULE.lottoNumber.min,
+        LOTTO_RULE.lottoNumber.max
+      )
     )
-      throw new Error(
-        `[ERROR] 보너스번호는 ${LOTTO_RULE.lottoNumber.min} ~ ${LOTTO_RULE.lottoNumber.max} 사이의 숫자로 입력해야 합니다.`
-      );
-    if (winningNumbers.includes(bonusNumber))
-      throw new Error(
-        "[ERROR] 보너스번호는 당첨번호와 중복없이 입력해야 합니다."
-      );
+      throwCustomError(ERROR_MESSAGE.bonusNumber.notInRange);
+    if (isIncludesInArray(winningNumbers, bonusNumber))
+      throwCustomError(ERROR_MESSAGE.bonusNumber.duplicateWithWinningNumber);
   },
 
   validateRestartRequest(input) {
-    if (!(input === "y" || input === "n"))
-      throw new Error("[ERROR] 재시작 여부는 y or n으로 입력해야 합니다.");
+    if (!isOneOf(input, ["y", "n", "Y", "N"]))
+      throwCustomError(ERROR_MESSAGE.restartRequest.notYorN);
   },
 };
 

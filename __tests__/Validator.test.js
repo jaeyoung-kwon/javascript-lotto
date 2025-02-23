@@ -5,7 +5,7 @@ describe("구입금액", () => {
     const input = Number("천원");
 
     expect(() => Validator.validatePurchaseMoney(input)).toThrow(
-      "[ERROR] 구입 금액은 숫자로 입력해야 합니다.",
+      "[ERROR] 구입 금액은 숫자로 입력해야 합니다."
     );
   });
 
@@ -13,7 +13,7 @@ describe("구입금액", () => {
     const input = Number("1000.5");
 
     expect(() => Validator.validatePurchaseMoney(input)).toThrow(
-      "[ERROR] 구입 금액은 정수로 입력해야 합니다.",
+      "[ERROR] 구입 금액은 정수로 입력해야 합니다."
     );
   });
 
@@ -21,7 +21,7 @@ describe("구입금액", () => {
     const input = Number("");
 
     expect(() => Validator.validatePurchaseMoney(input)).toThrow(
-      "[ERROR] 구입 금액은 양수로 입력해야 합니다.",
+      "[ERROR] 구입 금액은 양수로 입력해야 합니다."
     );
   });
 
@@ -29,7 +29,7 @@ describe("구입금액", () => {
     const input = Number("-1000");
 
     expect(() => Validator.validatePurchaseMoney(input)).toThrow(
-      "[ERROR] 구입 금액은 양수로 입력해야 합니다.",
+      "[ERROR] 구입 금액은 양수로 입력해야 합니다."
     );
   });
 
@@ -37,7 +37,7 @@ describe("구입금액", () => {
     const input = Number("1234");
 
     expect(() => Validator.validatePurchaseMoney(input)).toThrow(
-      "[ERROR] 구입 금액은 1000원 단위로 입력해야 합니다.",
+      "[ERROR] 구입 금액은 1000원 단위로 입력해야 합니다."
     );
   });
 });
@@ -48,7 +48,7 @@ describe("당첨번호", () => {
     const strings = input.split(",").map((string) => Number(string));
 
     expect(() => Validator.validateWinningNumbers(strings)).toThrow(
-      "[ERROR] 당첨번호는 중복없이 입력해야 합니다.",
+      "[ERROR] 당첨번호는 중복없이 입력해야 합니다."
     );
   });
 
@@ -57,7 +57,7 @@ describe("당첨번호", () => {
     const strings = input.split(",").map((string) => Number(string));
 
     expect(() => Validator.validateWinningNumbers(strings)).toThrow(
-      "[ERROR] 당첨번호는 숫자로 입력해야 합니다.",
+      "[ERROR] 당첨번호는 숫자로 입력해야 합니다."
     );
   });
 
@@ -66,7 +66,7 @@ describe("당첨번호", () => {
     const strings = input.split(",").map((string) => Number(string));
 
     expect(() => Validator.validateWinningNumbers(strings)).toThrow(
-      "[ERROR] 당첨번호는 정수로 입력해야 합니다.",
+      "[ERROR] 당첨번호는 정수로 입력해야 합니다."
     );
   });
 
@@ -75,7 +75,7 @@ describe("당첨번호", () => {
     const strings = input.split(",").map((string) => Number(string));
 
     expect(() => Validator.validateWinningNumbers(strings)).toThrow(
-      "[ERROR] 당첨번호는 1 ~ 45 사이의 숫자로 입력해야 합니다.",
+      "[ERROR] 당첨번호는 1 ~ 45 사이의 숫자로 입력해야 합니다."
     );
   });
 
@@ -84,7 +84,7 @@ describe("당첨번호", () => {
     const strings = input.split(",").map((string) => Number(string));
 
     expect(() => Validator.validateWinningNumbers(strings)).toThrow(
-      "[ERROR] 당첨번호는 6개를 입력해야 합니다.",
+      "[ERROR] 당첨번호는 6개를 입력해야 합니다."
     );
   });
 
@@ -93,7 +93,7 @@ describe("당첨번호", () => {
     const strings = input.split(",").map((string) => Number(string));
 
     expect(() => Validator.validateWinningNumbers(strings)).toThrow(
-      "[ERROR] 당첨번호는 1 ~ 45 사이의 숫자로 입력해야 합니다.",
+      "[ERROR] 당첨번호는 1 ~ 45 사이의 숫자로 입력해야 합니다."
     );
   });
 });
@@ -105,7 +105,7 @@ describe("보너스번호", () => {
     const input = Number("일");
 
     expect(() => Validator.validateBonusNumber(winningNumbers, input)).toThrow(
-      "[ERROR] 보너스번호는 숫자로 입력해야 합니다.",
+      "[ERROR] 보너스번호는 숫자로 입력해야 합니다."
     );
   });
 
@@ -113,7 +113,7 @@ describe("보너스번호", () => {
     const input = Number("1.2");
 
     expect(() => Validator.validateBonusNumber(winningNumbers, input)).toThrow(
-      "[ERROR] 보너스번호는 정수로 입력해야 합니다.",
+      "[ERROR] 보너스번호는 정수로 입력해야 합니다."
     );
   });
 
@@ -121,7 +121,7 @@ describe("보너스번호", () => {
     const input = Number("");
 
     expect(() => Validator.validateBonusNumber(winningNumbers, input)).toThrow(
-      "[ERROR] 보너스번호는 1 ~ 45 사이의 숫자로 입력해야 합니다.",
+      "[ERROR] 보너스번호는 1 ~ 45 사이의 숫자로 입력해야 합니다."
     );
   });
 
@@ -129,7 +129,7 @@ describe("보너스번호", () => {
     const input = Number("50");
 
     expect(() => Validator.validateBonusNumber(winningNumbers, input)).toThrow(
-      "[ERROR] 보너스번호는 1 ~ 45 사이의 숫자로 입력해야 합니다.",
+      "[ERROR] 보너스번호는 1 ~ 45 사이의 숫자로 입력해야 합니다."
     );
   });
 
@@ -137,7 +137,7 @@ describe("보너스번호", () => {
     const input = Number("1");
 
     expect(() => Validator.validateBonusNumber(winningNumbers, input)).toThrow(
-      "[ERROR] 보너스번호는 당첨번호와 중복없이 입력해야 합니다.",
+      "[ERROR] 보너스번호는 당첨번호와 중복없이 입력해야 합니다."
     );
   });
 });
