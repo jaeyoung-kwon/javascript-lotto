@@ -1,3 +1,5 @@
+import { LOTTO_RULE } from "../constant/rule.js";
+
 const Validator = {
   validatePurchaseMoney(purchaseMoney) {
     if (Number.isNaN(purchaseMoney))
@@ -9,8 +11,10 @@ const Validator = {
     if (purchaseMoney <= 0)
       throw new Error("[ERROR] 구입 금액은 양수로 입력해야 합니다.");
 
-    if (purchaseMoney % 1000 !== 0)
-      throw new Error("[ERROR] 구입 금액은 1000원 단위로 입력해야 합니다.");
+    if (purchaseMoney % LOTTO_RULE.purchaseUnit !== 0)
+      throw new Error(
+        `[ERROR] 구입 금액은 ${LOTTO_RULE.purchaseUnit}원 단위로 입력해야 합니다.`
+      );
   },
 
   validateWinningNumbers(winningNumbers) {
@@ -21,17 +25,22 @@ const Validator = {
       if (!Number.isInteger(winningNumber))
         throw new Error("[ERROR] 당첨번호는 정수로 입력해야 합니다.");
 
-      if (winningNumber < 1 || winningNumber > 45)
+      if (
+        winningNumber < LOTTO_RULE.lottoNumber.min ||
+        winningNumber > LOTTO_RULE.lottoNumber.max
+      )
         throw new Error(
-          "[ERROR] 당첨번호는 1 ~ 45 사이의 숫자로 입력해야 합니다."
+          `[ERROR] 당첨번호는 ${LOTTO_RULE.lottoNumber.min} ~ ${LOTTO_RULE.lottoNumber.max} 사이의 숫자로 입력해야 합니다.`
         );
     });
     if (new Set(winningNumbers).size !== winningNumbers.length) {
       throw new Error("[ERROR] 당첨번호는 중복없이 입력해야 합니다.");
     }
 
-    if (winningNumbers.length !== 6)
-      throw new Error("[ERROR] 당첨번호는 6개를 입력해야 합니다.");
+    if (winningNumbers.length !== LOTTO_RULE.lottoNumber.count)
+      throw new Error(
+        `[ERROR] 당첨번호는 ${LOTTO_RULE.lottoNumber.count}개를 입력해야 합니다.`
+      );
   },
 
   validateBonusNumber(winningNumbers, bonusNumber) {
@@ -41,9 +50,12 @@ const Validator = {
     if (!Number.isInteger(bonusNumber))
       throw new Error("[ERROR] 보너스번호는 정수로 입력해야 합니다.");
 
-    if (bonusNumber < 1 || bonusNumber > 45)
+    if (
+      bonusNumber < LOTTO_RULE.lottoNumber.min ||
+      bonusNumber > LOTTO_RULE.lottoNumber.max
+    )
       throw new Error(
-        "[ERROR] 보너스번호는 1 ~ 45 사이의 숫자로 입력해야 합니다."
+        `[ERROR] 보너스번호는 ${LOTTO_RULE.lottoNumber.min} ~ ${LOTTO_RULE.lottoNumber.max} 사이의 숫자로 입력해야 합니다.`
       );
     if (winningNumbers.includes(bonusNumber))
       throw new Error(

@@ -1,15 +1,16 @@
+import { LOTTO_RULE } from "../constant/rule.js";
 import { generateRandomNumbers } from "../util/generateRandomNumbers.js";
 import Lotto from "./lotto.js";
 
 class LottoMachine {
-  getLottoCount(input) {
-    const lottoCount = input / 1000;
+  getLottoCount(purchaseMoney) {
+    const lottoCount = purchaseMoney / LOTTO_RULE.purchaseUnit;
     return lottoCount;
   }
 
   drawLotto(count) {
     return Array.from({ length: count }).map(() => {
-      const randomNumber = generateRandomNumbers({ min: 1, max: 45, count: 6 });
+      const randomNumber = generateRandomNumbers(LOTTO_RULE.lottoNumber);
       return new Lotto(randomNumber);
     });
   }
