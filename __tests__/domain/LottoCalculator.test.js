@@ -5,9 +5,14 @@ describe("로또 등수 계산", () => {
   const winningNumbers = [1, 2, 3, 4, 5, 6];
   const bonusNumber = 7;
 
+  let lottoCalculator;
+
+  beforeEach(() => {
+    lottoCalculator = new LottoCalculator(winningNumbers, bonusNumber);
+  });
+
   test("1등 조건 일치 확인", () => {
     const lotto = new Lotto([1, 2, 3, 4, 5, 6]);
-    const lottoCalculator = new LottoCalculator(winningNumbers, bonusNumber);
 
     lottoCalculator.calculatePrize(lotto);
 
@@ -16,7 +21,6 @@ describe("로또 등수 계산", () => {
 
   test("2등 조건 일치 확인", () => {
     const lotto = new Lotto([2, 3, 4, 5, 6, 7]);
-    const lottoCalculator = new LottoCalculator(winningNumbers, bonusNumber);
 
     lottoCalculator.calculatePrize(lotto);
 
@@ -25,7 +29,6 @@ describe("로또 등수 계산", () => {
 
   test("3등 조건 일치 확인", () => {
     const lotto = new Lotto([2, 3, 4, 5, 6, 8]);
-    const lottoCalculator = new LottoCalculator(winningNumbers, bonusNumber);
 
     lottoCalculator.calculatePrize(lotto);
 
@@ -33,7 +36,6 @@ describe("로또 등수 계산", () => {
   });
   test("4등 조건 일치 확인", () => {
     const lotto = new Lotto([3, 4, 5, 6, 8, 9]);
-    const lottoCalculator = new LottoCalculator(winningNumbers, bonusNumber);
 
     lottoCalculator.calculatePrize(lotto);
 
@@ -41,7 +43,6 @@ describe("로또 등수 계산", () => {
   });
   test("5등 조건 일치 확인", () => {
     const lotto = new Lotto([4, 5, 6, 8, 9, 10]);
-    const lottoCalculator = new LottoCalculator(winningNumbers, bonusNumber);
 
     lottoCalculator.calculatePrize(lotto);
 
@@ -50,7 +51,6 @@ describe("로또 등수 계산", () => {
 
   test("등수에따른 수익 금액을 확인한다.", () => {
     const lotto = new Lotto([4, 5, 6, 8, 9, 10]);
-    const lottoCalculator = new LottoCalculator(winningNumbers, bonusNumber);
 
     lottoCalculator.calculatePrize(lotto);
     lottoCalculator.calculateTotalPrice();
@@ -60,7 +60,6 @@ describe("로또 등수 계산", () => {
 
   test("계산된 수익 금액을 바탕으로 수익률을 계산한다.", () => {
     const lotto = new Lotto([4, 5, 6, 8, 9, 10]);
-    const lottoCalculator = new LottoCalculator(winningNumbers, bonusNumber);
     const purchaseMoney = 1_000;
 
     lottoCalculator.calculatePrize(lotto);
