@@ -22,12 +22,19 @@ class LottoCalculator {
   calculatePrize(lotto) {
     const matchCount = lotto.countNumbersMatch(this.#winningNumbers);
     const isMatchBonus = lotto.isMatch(this.#bonusNumber);
-    const tableKey = `${matchCount}_${isMatchBonus}`;
 
-    if (matchCount >= 3) {
-      const rank = MATCH_TO_RANK_TABLE[tableKey];
-      this.#prize.set(rank, [...this.#prize.get(rank), lotto]);
+    const rank = this.#getRank(matchCount, isMatchBonus);
+
+    if (rank) {
+      this.#prize.get(rank).push(lotto);
     }
+  }
+
+  #getRank(matchCount, isMatchBonus) {
+    if (matchCount < 3 || matchCount > 6) {
+      return null;
+    }
+    return MATCH_TO_RANK_TABLE[matchCount][isMatchBonus];
   }
 
   calculateTotalPrice() {

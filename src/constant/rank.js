@@ -1,12 +1,8 @@
 export const MATCH_TO_RANK_TABLE = {
-  "3_false": 5,
-  "3_true": 5,
-  "4_false": 4,
-  "4_true": 4,
-  "5_false": 3,
-  "5_true": 2,
-  "6_false": 1,
-  "6_true": 1,
+  3: { false: 5, true: 5 },
+  4: { false: 4, true: 4 },
+  5: { false: 3, true: 2 },
+  6: { false: 1, true: 1 },
 };
 
 export const RANK_INFO_TABLE = {
