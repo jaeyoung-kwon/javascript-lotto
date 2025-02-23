@@ -1,3 +1,4 @@
+import { generateRandomNumbers } from "../util/generateRandomNumbers.js";
 import Lotto from "./lotto.js";
 
 class LottoMachine {
@@ -6,19 +7,9 @@ class LottoMachine {
     return lottoCount;
   }
 
-  drawRandomNumbers(count) {
-    const randomNumbers = new Set();
-    while (randomNumbers.size < count) {
-      const randomNumber = Math.floor(Math.random() * 45 + 1);
-      randomNumbers.add(randomNumber);
-    }
-
-    return Array.from(randomNumbers).sort((a, b) => a - b);
-  }
-
   drawLotto(count) {
     return Array.from({ length: count }).map(() => {
-      const randomNumber = this.drawRandomNumbers(6);
+      const randomNumber = generateRandomNumbers({ min: 1, max: 45, count: 6 });
       return new Lotto(randomNumber);
     });
   }

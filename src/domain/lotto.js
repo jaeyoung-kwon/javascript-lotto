@@ -1,8 +1,10 @@
+import { sortArrayAscending } from "../util/sorting";
+
 class Lotto {
   #numbers;
 
   constructor(numbers) {
-    this.#numbers = numbers;
+    this.#numbers = sortArrayAscending(numbers);
   }
 
   countNumbersMatch(numbers) {
