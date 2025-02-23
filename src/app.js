@@ -10,10 +10,7 @@ class App {
     const purchaseMoney = await InputView.getPurchaseMoney();
 
     const lottoMachine = new LottoMachine();
-
-    const lottoCount = lottoMachine.getLottoCount(purchaseMoney);
-    const lottos = lottoMachine.drawLotto(lottoCount);
-    OutputView.printLottoCount(lottoCount);
+    const lottos = lottoMachine.drawLotto(purchaseMoney);
     OutputView.printLotto(lottos);
 
     const winningNumbers = await InputView.getWinningNumbers();

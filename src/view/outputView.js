@@ -1,14 +1,14 @@
 import { RANK_INFO_TABLE } from "../constant/rank.js";
 
 class OutputView {
-  static printLottoCount(lottoCount) {
-    console.log(`${lottoCount}개를 구매했습니다.`);
-  }
-
   static printLotto(lottos) {
+    console.log(`${lottos.length}개를 구매했습니다.`);
+
     lottos.forEach((lotto) => {
       console.log(`[${lotto.numbers.join(", ")}]`);
     });
+
+    OutputView.printEmptyLine();
   }
 
   static printResult(prize, profit) {
@@ -23,6 +23,10 @@ class OutputView {
       );
     });
     console.log(`총 수익률은 ${profit}%입니다.`);
+  }
+
+  static printEmptyLine() {
+    console.log("");
   }
 
   static printError(error) {
