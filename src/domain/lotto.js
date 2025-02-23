@@ -1,4 +1,4 @@
-import { sortArrayAscending } from "../util/sorting";
+import { sortArrayAscending } from "../util/sorting.js";
 
 class Lotto {
   #numbers;

@@ -1,4 +1,5 @@
 import readLineAsync from "../util/readLineAsync.js";
+import OutputView from "./outputView.js";
 
 const InputHandler = async ({ inputMessage, parser, validator }) => {
   try {
@@ -7,7 +8,7 @@ const InputHandler = async ({ inputMessage, parser, validator }) => {
     validator(parsedInput);
     return parsedInput;
   } catch (error) {
-    console.log(error.message);
+    OutputView.printError(error);
     return InputHandler({ inputMessage, parser, validator });
   }
 };
