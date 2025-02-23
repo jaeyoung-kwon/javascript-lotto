@@ -1,3 +1,4 @@
+import { PRIZE } from "../constant/prize.js";
 import { MATCH_TO_RANK_TABLE, RANK_INFO_TABLE } from "../constant/rank.js";
 
 class LottoCalculator {
@@ -11,11 +12,11 @@ class LottoCalculator {
     this.#winningNumbers = winningNumbers;
     this.#bonusNumber = bonusNumber;
     this.#prize = new Map([
-      [5, []],
-      [4, []],
-      [3, []],
-      [2, []],
-      [1, []],
+      [PRIZE.fifth, []],
+      [PRIZE.forth, []],
+      [PRIZE.third, []],
+      [PRIZE.second, []],
+      [PRIZE.first, []],
     ]);
   }
 
