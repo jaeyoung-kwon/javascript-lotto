@@ -5,8 +5,6 @@ class LottoCalculator {
   #winningNumbers;
   #bonusNumber;
   #prize;
-  #totalPrice;
-  #profit;
 
   constructor(winningNumbers, bonusNumber) {
     this.#winningNumbers = winningNumbers;
@@ -20,7 +18,21 @@ class LottoCalculator {
     ]);
   }
 
-  calculatePrize(lotto) {
+  calculateResult(lottos, purchaseMoney) {
+    this.calculatePrize(lottos);
+    const totalPrice = this.calculateTotalPrice();
+    const profit = this.calculateProfit(totalPrice, purchaseMoney);
+
+    return { prize: this.#prize, profit: profit };
+  }
+
+  calculatePrize(lottos) {
+    lottos.forEach((lotto) => {
+      this.#calculateLottoPrize(lotto);
+    });
+  }
+
+  #calculateLottoPrize(lotto) {
     const matchCount = lotto.countNumbersMatch(this.#winningNumbers);
     const isMatchBonus = lotto.isMatch(this.#bonusNumber);
 
@@ -39,7 +51,7 @@ class LottoCalculator {
   }
 
   calculateTotalPrice() {
-    this.#totalPrice = Array.from(this.#prize.entries()).reduce(
+    return Array.from(this.#prize.entries()).reduce(
       (sum, [rank, rankLottos]) => {
         const info = RANK_INFO_TABLE[rank];
         return sum + info.price * rankLottos.length;
@@ -48,20 +60,12 @@ class LottoCalculator {
     );
   }
 
-  calculateProfit(purchaseMoney) {
-    this.#profit = (this.#totalPrice / purchaseMoney) * 100;
+  calculateProfit(totalPrice, purchaseMoney) {
+    return (totalPrice / purchaseMoney) * 100;
   }
 
   get prize() {
-    return this.#prize;
-  }
-
-  get totalPrice() {
-    return this.#totalPrice;
-  }
-
-  get profit() {
-    return this.#profit;
+    return new Map(this.#prize);
   }
 }
 

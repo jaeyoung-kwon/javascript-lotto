@@ -50,9 +50,7 @@ describe("로또 등수 계산", () => {
         (lottoNumbers) => new Lotto(lottoNumbers)
       );
 
-      lottos.forEach((lotto) => {
-        lottoCalculator.calculatePrize(lotto);
-      });
+      lottoCalculator.calculatePrize(lottos);
 
       expect(lottoCalculator.prize.get(rank)).toStrictEqual(lottos);
     }
@@ -62,8 +60,7 @@ describe("로또 등수 계산", () => {
     const lotto1 = new Lotto([5, 6, 8, 9, 10, 11]); // 2개 일치
     const lotto2 = new Lotto([6, 8, 9, 10, 11, 12]); // 1개 일치
 
-    lottoCalculator.calculatePrize(lotto1);
-    lottoCalculator.calculatePrize(lotto2);
+    lottoCalculator.calculatePrize([lotto1, lotto2]);
 
     expect(lottoCalculator.prize).toStrictEqual(initialPrize);
   });
@@ -71,20 +68,19 @@ describe("로또 등수 계산", () => {
   test("등수에따른 수익 금액을 확인한다.", () => {
     const lotto = new Lotto([4, 5, 6, 8, 9, 10]);
 
-    lottoCalculator.calculatePrize(lotto);
-    lottoCalculator.calculateTotalPrice();
+    lottoCalculator.calculatePrize([lotto]);
 
-    expect(lottoCalculator.totalPrice).toBe(RANK_INFO_TABLE[5].price);
+    expect(lottoCalculator.calculateTotalPrice()).toBe(
+      RANK_INFO_TABLE[5].price
+    );
   });
 
   test("계산된 수익 금액을 바탕으로 수익률을 계산한다.", () => {
     const lotto = new Lotto([4, 5, 6, 8, 9, 10]);
     const purchaseMoney = LOTTO_RULE.purchaseUnit * 1;
 
-    lottoCalculator.calculatePrize(lotto);
-    lottoCalculator.calculateTotalPrice();
-    lottoCalculator.calculateProfit(purchaseMoney);
+    const result = lottoCalculator.calculateResult([lotto], purchaseMoney);
 
-    expect(lottoCalculator.profit).toBe(500);
+    expect(result.profit).toBe(500);
   });
 });

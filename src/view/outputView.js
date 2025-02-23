@@ -11,7 +11,7 @@ class OutputView {
     OutputView.printEmptyLine();
   }
 
-  static printResult(prize, profit) {
+  static printResult({ prize, profit }) {
     console.log("당첨 통계");
     console.log("--------------------");
     prize.forEach((rankLottos, rank) => {

@@ -15,23 +15,12 @@ class App {
 
     const winningNumbers = await InputView.getWinningNumbers();
     const bonusNumber = await InputView.getBonusNumber(winningNumbers);
-    this.#lottoCalculator = new LottoCalculator(winningNumbers, bonusNumber);
 
-    this.calculateResult(lottos, purchaseMoney);
-    OutputView.printResult(
-      this.#lottoCalculator.prize,
-      this.#lottoCalculator.profit
-    );
+    this.#lottoCalculator = new LottoCalculator(winningNumbers, bonusNumber);
+    const result = this.#lottoCalculator.calculateResult(lottos, purchaseMoney);
+    OutputView.printResult(result);
 
     await this.restart();
-  }
-
-  calculateResult(lottos, purchaseMoney) {
-    lottos.forEach((lotto) => {
-      this.#lottoCalculator.calculatePrize(lotto);
-    });
-    this.#lottoCalculator.calculateTotalPrice();
-    this.#lottoCalculator.calculateProfit(purchaseMoney);
   }
 
   async restart() {
