@@ -1,10 +1,14 @@
+import { RANK_INFO_TABLE } from "../constant/rank.js";
+import LottoCalculator from "../domain/lottoCalculator.js";
 import LottoMachine from "../domain/lottoMachine.js";
 import { createDOMElement } from "../util/createDOMElement.js";
 
 class WebController {
   init() {
     const purchaseButton = document.getElementById("purchaseButton");
-    purchaseButton.addEventListener("click", this.purchaseLotto.bind(this));
+    purchaseButton.addEventListener("click", () => {
+      this.purchaseLotto();
+    });
   }
 
   purchaseLotto() {
@@ -74,6 +78,7 @@ class WebController {
 
     for (let i = 0; i < 6; i++) {
       const winningNumberInput = createDOMElement("input", {
+        id: `winningNumberInput${i}`,
         class: "number_input",
       });
       winningNumberInputWrapper.appendChild(winningNumberInput);
@@ -96,6 +101,7 @@ class WebController {
     });
 
     const bonusNumberInput = createDOMElement("input", {
+      id: "bonusNumberInput",
       class: "number_input",
     });
 
@@ -132,11 +138,27 @@ class WebController {
     bodyWrapper.appendChild(lottoListWrapper);
 
     const resultButton = document.getElementById("resultButton");
-    console.log("SDFSDFSDf");
-    resultButton.addEventListener("click", this.showModal.bind(this));
+    resultButton.addEventListener("click", () => {
+      const result = this.calculateResult(lottos, purchaseMoney);
+      this.showResultModal(result);
+    });
   }
 
-  showModal() {
+  calculateResult(lottos, purchaseMoney) {
+    const winningNumbers = Array.from({ length: 6 }).map((_, index) => {
+      const input = document.getElementById(`winningNumberInput${index}`);
+      return Number(input.value);
+    });
+    const bonusNumber = Number(
+      document.getElementById("bonusNumberInput").value
+    );
+
+    const lottoCalculator = new LottoCalculator(winningNumbers, bonusNumber);
+    const result = lottoCalculator.calculateResult(lottos, purchaseMoney);
+    return result;
+  }
+
+  showResultModal(result) {
     if (document.querySelector(".modal_backdrop")) return;
 
     const modalBackdrop = createDOMElement("div", { class: "modal_backdrop" });
@@ -169,15 +191,16 @@ class WebController {
 
     const modalTable = createDOMElement("div", { class: "modal_table" });
 
-    // 당첨 통계 테이블 생성
-    const tableData = [
-      ["일치 갯수", "당첨금", "당첨 갯수"],
-      ["3개", "5,000", "n개"],
-      ["4개", "50,000", "n개"],
-      ["5개", "1,500,000", "n개"],
-      ["5개+보너스볼", "30,000,000", "n개"],
-      ["6개", "2,000,000,000", "n개"],
-    ];
+    const tableData = [["일치 갯수", "당첨금", "당첨 갯수"]];
+
+    result.prize.forEach((rankLottos, rank) => {
+      const info = RANK_INFO_TABLE[rank];
+      tableData.push([
+        info.message,
+        info.price.toLocaleString(),
+        `${rankLottos.length}개`,
+      ]);
+    });
 
     tableData.forEach((rowData, index) => {
       modalTable.appendChild(
@@ -204,7 +227,7 @@ class WebController {
 
     const modalProfitText = createDOMElement("p", {
       class: "modal_profit_text",
-      textContent: "당신의 총 수익률은 %입니다.",
+      textContent: `당신의 총 수익률은 ${result.profit}%입니다.`,
     });
     const restartButton = createDOMElement("button", {
       class: "restart_button",
