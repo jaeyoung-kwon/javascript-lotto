@@ -80,6 +80,12 @@ class WebController {
       const winningNumberInput = createDOMElement("input", {
         id: `winningNumberInput${i}`,
         class: "number_input",
+        type: "number",
+      });
+      winningNumberInput.addEventListener("input", function () {
+        if (this.value.length > 2) {
+          this.value = this.value.slice(0, 2);
+        }
       });
       winningNumberInputWrapper.appendChild(winningNumberInput);
     }
@@ -103,6 +109,13 @@ class WebController {
     const bonusNumberInput = createDOMElement("input", {
       id: "bonusNumberInput",
       class: "number_input",
+      type: "number",
+    });
+
+    bonusNumberInput.addEventListener("input", function () {
+      if (this.value.length > 2) {
+        this.value = this.value.slice(0, 2);
+      }
     });
 
     bonusNumberInputWrapper.appendChild(bonusNumberInput);
