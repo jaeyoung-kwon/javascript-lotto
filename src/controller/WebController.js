@@ -243,7 +243,7 @@ class WebController {
       textContent: `당신의 총 수익률은 ${result.profit}%입니다.`,
     });
     const restartButton = createDOMElement("button", {
-      class: "restart_button",
+      class: "modal_restart_button",
       type: "button",
       textContent: "다시 시작하기",
     });
