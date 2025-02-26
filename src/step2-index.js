@@ -1,16 +1,80 @@
-const resultButton = document.getElementById("resultButton");
+import LottoMachine from "./domain/lottoMachine.js";
 
-resultButton.addEventListener("click", () => {
+const purchaseButton = document.getElementById("purchaseButton");
+
+purchaseButton.addEventListener("click", () => {
+  const input = document.getElementById("purchaseInput").value;
+  const purchaseMoney = Number(input);
+
+  console.log(purchaseMoney);
+
+  const lottoMachine = new LottoMachine();
+  const lottos = lottoMachine.drawLotto(purchaseMoney);
+
+  const lottoListWrapper = document.createElement("div");
+  lottoListWrapper.className = "lotto_list_wrapper";
+
+  lottoListWrapper.innerHTML = `
+  <p class="body_text">총 ${lottos.length}개를 구매하였습니다.</p>
+  <div class="lotto_list">
+              ${lottos
+                .map((lotto) => {
+                  return `<div class="lotto_row">
+                  <div class="lotto_icon">🎟️</div>
+                  <p class="body_text">${lotto.numbers.join(", ")}</p>
+                  </div>`;
+                })
+                .join("")}
+            </div>
+            <div class="number_input_form">
+              <p class="body_text">
+              지난 주 당첨번호 6개와 보너스 번호 1개를 입력해주세요.
+              </p>
+              <div class="number_input_container">
+                <div class="number_input_box">
+                <p class="body_text">당첨 번호</p>
+                  <div class="number_input_wrapper">
+                    <input class="number_input" />
+                    <input class="number_input" />
+                    <input class="number_input" />
+                    <input class="number_input" />
+                    <input class="number_input" />
+                    <input class="number_input" />
+                  </div>
+                  </div>
+                <div class="number_input_box">
+                  <p class="body_text">보너스 번호</p>
+                  <div class="number_input_wrapper">
+                  <input class="number_input" />
+                  </div>
+                </div>
+                </div>
+              <div class="result_button_wrapper">
+                <button type="button" id="resultButton" class="result_button">
+                결과 확인하기
+                </button>
+                </div>
+                </div>
+                `;
+
+  const bodyWrapper = document.querySelector(".body_wrapper");
+
+  bodyWrapper.appendChild(lottoListWrapper);
+
+  const resultButton = document.getElementById("resultButton");
+  resultButton.addEventListener("click", showModal);
+});
+
+const showModal = () => {
   if (document.querySelector(".modal_backdrop")) return;
 
   const modalBackdrop = document.createElement("div");
   modalBackdrop.className = "modal_backdrop";
-  document.body.appendChild(modalBackdrop);
 
   modalBackdrop.innerHTML = `
         <div class="modal_container">
         <div class="modal_close_button_wrapper">
-            <button class="modal_close_button" id="modalCloseButton">
+            <button type="button" class="modal_close_button" id="modalCloseButton">
               <img src="/icon/close.svg" alt="Close" />
             </button>
           </div>
@@ -60,6 +124,8 @@ resultButton.addEventListener("click", () => {
             </div>
     `;
 
+  document.body.appendChild(modalBackdrop);
+
   const closeButton = document.getElementById("modalCloseButton");
   closeButton.addEventListener("click", () => {
     modalBackdrop.remove();
@@ -70,6 +136,4 @@ resultButton.addEventListener("click", () => {
       modalBackdrop.remove();
     }
   });
-
-  document.body.appendChild(modalBackdrop);
-});
+};
