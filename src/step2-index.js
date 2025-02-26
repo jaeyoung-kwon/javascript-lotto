@@ -1,4 +1,5 @@
 import LottoMachine from "./domain/lottoMachine.js";
+import { createDOMElement } from "./util/createDOMElement.js";
 
 const purchaseButton = document.getElementById("purchaseButton");
 
@@ -68,65 +69,92 @@ purchaseButton.addEventListener("click", () => {
 const showModal = () => {
   if (document.querySelector(".modal_backdrop")) return;
 
-  const modalBackdrop = document.createElement("div");
-  modalBackdrop.className = "modal_backdrop";
+  const modalBackdrop = createDOMElement("div", { class: "modal_backdrop" });
 
-  modalBackdrop.innerHTML = `
-        <div class="modal_container">
-        <div class="modal_close_button_wrapper">
-            <button type="button" class="modal_close_button" id="modalCloseButton">
-              <img src="/icon/close.svg" alt="Close" />
-            </button>
-          </div>
-          <div class="modal_wrapper">
-          <p class="modal_title">🏆 당첨 통계 🏆</p>
-          <div class="modal_table">
-          <div class="modal_table_divider"></div>
-          <div class="modal_table_row">
-          <p class="modal_table_cell">일치 갯수</p>
-                <p class="modal_table_cell">당첨금</p>
-                <p class="modal_table_cell">당첨 갯수</p>
-              </div>
-              <div class="modal_table_divider"></div>
-              <div class="modal_table_row">
-                <p class="modal_table_cell">3개</p>
-                <p class="modal_table_cell">5,000</p>
-                <p class="modal_table_cell">n개</p>
-                </div>
-              <div class="modal_table_divider"></div>
-              <div class="modal_table_row">
-                <p class="modal_table_cell">4개</p>
-                <p class="modal_table_cell">50,000</p>
-                <p class="modal_table_cell">n개</p>
-                </div>
-                <div class="modal_table_divider"></div>
-                <div class="modal_table_row">
-                <p class="modal_table_cell">5개</p>
-                <p class="modal_table_cell">1,500,000</p>
-                <p class="modal_table_cell">n개</p>
-              </div>
-              <div class="modal_table_divider"></div>
-              <div class="modal_table_row">
-              <p class="modal_table_cell">5개+보너스볼</p>
-              <p class="modal_table_cell">30,000,000</p>
-              <p class="modal_table_cell">n개</p>
-              </div>
-              <div class="modal_table_divider"></div>
-              <div class="modal_table_row">
-                <p class="modal_table_cell">6개</p>
-                <p class="modal_table_cell">2,000,000,000</p>
-                <p class="modal_table_cell">n개</p>
-              </div>
-            </div>
-            <p class="modal_profit_text">당신의 총 수익률은 %입니다.</p>
-            <button class="restart_button">다시 시작하기</button>
-            </div>
-            </div>
-    `;
+  const modalContainer = createDOMElement("div", { class: "modal_container" });
 
+  const closeButtonWrapper = createDOMElement("div", {
+    class: "modal_close_button_wrapper",
+  });
+  const closeButton = createDOMElement("button", {
+    class: "modal_close_button",
+    type: "button",
+    id: "modalCloseButton",
+  });
+  const closeIcon = createDOMElement("img", {
+    src: "/icon/close.svg",
+    alt: "Close",
+  });
+
+  closeButton.appendChild(closeIcon);
+  closeButtonWrapper.appendChild(closeButton);
+
+  const modalWrapper = createDOMElement("div", { class: "modal_wrapper" });
+  const modalTitle = createDOMElement("p", {
+    class: "modal_title",
+    textContent: "🏆 당첨 통계 🏆",
+  });
+
+  const modalTable = createDOMElement("div", { class: "modal_table" });
+
+  // 당첨 통계 테이블 생성
+  const tableData = [
+    ["일치 갯수", "당첨금", "당첨 갯수"],
+    ["3개", "5,000", "n개"],
+    ["4개", "50,000", "n개"],
+    ["5개", "1,500,000", "n개"],
+    ["5개+보너스볼", "30,000,000", "n개"],
+    ["6개", "2,000,000,000", "n개"],
+  ];
+
+  tableData.forEach((rowData, index) => {
+    modalTable.appendChild(
+      createDOMElement("div", { class: "modal_table_divider" })
+    );
+    const row = createDOMElement("div", { class: "modal_table_row" });
+
+    rowData.forEach((cellText) => {
+      const cell = createDOMElement("p", {
+        class: "modal_table_cell",
+        textContent: cellText,
+      });
+      row.appendChild(cell);
+    });
+
+    modalTable.appendChild(row);
+
+    if (index === tableData.length - 1) {
+      modalTable.appendChild(
+        createDOMElement("div", { class: "modal_table_divider" })
+      );
+    }
+  });
+
+  const modalProfitText = createDOMElement("p", {
+    class: "modal_profit_text",
+    textContent: "당신의 총 수익률은 %입니다.",
+  });
+  const restartButton = createDOMElement("button", {
+    class: "restart_button",
+    type: "button",
+    textContent: "다시 시작하기",
+  });
+
+  // 구조 조립
+  modalWrapper.appendChild(modalTitle);
+  modalWrapper.appendChild(modalTable);
+  modalWrapper.appendChild(modalProfitText);
+  modalWrapper.appendChild(restartButton);
+
+  modalContainer.appendChild(closeButtonWrapper);
+  modalContainer.appendChild(modalWrapper);
+
+  modalBackdrop.appendChild(modalContainer);
+
+  // DOM에 추가
   document.body.appendChild(modalBackdrop);
 
-  const closeButton = document.getElementById("modalCloseButton");
+  // 닫기 이벤트 추가
   closeButton.addEventListener("click", () => {
     modalBackdrop.remove();
   });
