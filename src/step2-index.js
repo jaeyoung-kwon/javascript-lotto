@@ -7,56 +7,110 @@ purchaseButton.addEventListener("click", () => {
   const input = document.getElementById("purchaseInput").value;
   const purchaseMoney = Number(input);
 
-  console.log(purchaseMoney);
-
   const lottoMachine = new LottoMachine();
   const lottos = lottoMachine.drawLotto(purchaseMoney);
 
-  const lottoListWrapper = document.createElement("div");
-  lottoListWrapper.className = "lotto_list_wrapper";
+  const lottoListWrapper = createDOMElement("div", {
+    class: "lotto_list_wrapper",
+  });
 
-  lottoListWrapper.innerHTML = `
-  <p class="body_text">총 ${lottos.length}개를 구매하였습니다.</p>
-  <div class="lotto_list">
-              ${lottos
-                .map((lotto) => {
-                  return `<div class="lotto_row">
-                  <div class="lotto_icon">🎟️</div>
-                  <p class="body_text">${lotto.numbers.join(", ")}</p>
-                  </div>`;
-                })
-                .join("")}
-            </div>
-            <div class="number_input_form">
-              <p class="body_text">
-              지난 주 당첨번호 6개와 보너스 번호 1개를 입력해주세요.
-              </p>
-              <div class="number_input_container">
-                <div class="number_input_box">
-                <p class="body_text">당첨 번호</p>
-                  <div class="number_input_wrapper">
-                    <input class="number_input" />
-                    <input class="number_input" />
-                    <input class="number_input" />
-                    <input class="number_input" />
-                    <input class="number_input" />
-                    <input class="number_input" />
-                  </div>
-                  </div>
-                <div class="number_input_box">
-                  <p class="body_text">보너스 번호</p>
-                  <div class="number_input_wrapper">
-                  <input class="number_input" />
-                  </div>
-                </div>
-                </div>
-              <div class="result_button_wrapper">
-                <button type="button" id="resultButton" class="result_button">
-                결과 확인하기
-                </button>
-                </div>
-                </div>
-                `;
+  const lottoLengthText = createDOMElement("p", {
+    class: "body_text",
+    textContent: `총 ${lottos.length}개를 구매하였습니다.`,
+  });
+
+  const lottoList = createDOMElement("div", {
+    class: "lotto_list",
+  });
+
+  lottos.forEach((lotto) => {
+    const lottoLow = createDOMElement("div", {
+      class: "lotto_row",
+    });
+
+    const lottoIcon = createDOMElement("div", {
+      class: "lotto_icon",
+      textContent: "🎟️",
+    });
+    const lottoNumbers = createDOMElement("p", {
+      class: "body_text",
+      textContent: lotto.numbers.join(", "),
+    });
+    lottoLow.appendChild(lottoIcon);
+    lottoLow.appendChild(lottoNumbers);
+
+    lottoList.appendChild(lottoLow);
+  });
+
+  // lottoList.appendChild(lottosDOM);
+
+  const numberInputForm = createDOMElement("div", {
+    class: "number_input_form",
+  });
+
+  const numberInputTitle = createDOMElement("p", {
+    class: "body_text",
+    textContent: "지난 주 당첨번호 6개와 보너스 번호 1개를 입력해주세요.",
+  });
+
+  const numberInputContainer = createDOMElement("div", {
+    class: "number_input_container",
+  });
+
+  const winningNumberInputBox = createDOMElement("div", {
+    class: "number_input_box",
+  });
+
+  const winningNumberTitle = createDOMElement("p", {
+    class: "body_text",
+    textContent: "당첨 번호",
+  });
+
+  const winningNumberInputWrapper = createDOMElement("div", {
+    class: "number_input_wrapper",
+  });
+
+  for (let i = 0; i < 6; i++) {
+    const winningNumberInput = createDOMElement("input", {
+      class: "number_input",
+    });
+    winningNumberInputWrapper.appendChild(winningNumberInput);
+  }
+
+  winningNumberInputBox.appendChild(winningNumberTitle);
+  winningNumberInputBox.appendChild(winningNumberInputWrapper);
+
+  const bonusNumberInputBox = createDOMElement("div", {
+    class: "number_input_box",
+  });
+
+  const bonusNumberTitle = createDOMElement("p", {
+    class: "body_text",
+    textContent: "보너스 번호",
+  });
+
+  const bonusNumberInputWrapper = createDOMElement("div", {
+    class: "number_input_wrapper",
+  });
+
+  const bonusNumberInput = createDOMElement("input", {
+    class: "number_input",
+  });
+
+  bonusNumberInputWrapper.appendChild(bonusNumberInput);
+
+  bonusNumberInputBox.appendChild(bonusNumberTitle);
+  bonusNumberInputBox.appendChild(bonusNumberInputWrapper);
+
+  numberInputContainer.appendChild(winningNumberInputBox);
+  numberInputContainer.appendChild(bonusNumberInputBox);
+
+  numberInputForm.appendChild(numberInputTitle);
+  numberInputForm.appendChild(numberInputContainer);
+
+  lottoListWrapper.appendChild(lottoLengthText);
+  lottoListWrapper.appendChild(lottoList);
+  lottoListWrapper.appendChild(numberInputForm);
 
   const bodyWrapper = document.querySelector(".body_wrapper");
 
