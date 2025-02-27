@@ -16,6 +16,7 @@ export const createModalBody = (result) => {
   });
   const restartButton = createDOMElement("button", {
     class: "modal_restart_button",
+    id: "modalRestartButton",
     type: "button",
     textContent: "다시 시작하기",
   });

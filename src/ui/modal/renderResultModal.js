@@ -1,3 +1,4 @@
+import WebController from "../../controller/WebController.js";
 import { createDOMElement } from "../../util/createDOMElement.js";
 import { createCloseButton } from "./createCloseButton.js";
 import { createModalBody } from "./createModalBody.js";
@@ -20,8 +21,14 @@ export const renderResultModal = (result) => {
 
   modalBackdrop.appendChild(modalContainer);
 
-  // DOM에 추가
   document.body.appendChild(modalBackdrop);
+
+  const restartButton = document.getElementById("modalRestartButton");
+  restartButton.addEventListener("click", () => {
+    modalBackdrop.remove();
+
+    WebController.restart();
+  });
 
   closeButton.addEventListener("click", () => {
     modalBackdrop.remove();
