@@ -28,7 +28,11 @@ export const renderLottoList = (lottos, purchaseMoney) => {
 
   const resultButton = document.getElementById("resultButton");
   resultButton.addEventListener("click", () => {
-    const result = WebController.calculateResult(lottos, purchaseMoney);
-    renderResultModal(result);
+    try {
+      const result = WebController.calculateResult(lottos, purchaseMoney);
+      renderResultModal(result);
+    } catch (error) {
+      alert(error.message);
+    }
   });
 };

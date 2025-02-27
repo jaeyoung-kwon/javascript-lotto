@@ -6,14 +6,19 @@ import WebInput from "../view/WebInput.js";
 class WebController {
   init() {
     const purchaseButton = document.getElementById("purchaseButton");
-    purchaseButton.addEventListener("click", () => {
-      this.purchaseLotto();
+    purchaseButton.addEventListener("click", (e) => {
+      try {
+        e.preventDefault();
+
+        this.purchaseLotto();
+      } catch (error) {
+        alert(error.message);
+      }
     });
   }
 
   purchaseLotto() {
     const purchaseMoney = WebInput.getPurchaseMoney();
-    if (!purchaseMoney) return;
 
     const lottoMachine = new LottoMachine();
     const lottos = lottoMachine.drawLotto(purchaseMoney);
@@ -23,9 +28,7 @@ class WebController {
 
   static calculateResult(lottos, purchaseMoney) {
     const winningNumbers = WebInput.getWinningNumbers();
-    if (!winningNumbers) return;
     const bonusNumber = WebInput.getBonusNumber(winningNumbers);
-    if (!bonusNumber) return;
 
     const lottoCalculator = new LottoCalculator(winningNumbers, bonusNumber);
     const result = lottoCalculator.calculateResult(lottos, purchaseMoney);
