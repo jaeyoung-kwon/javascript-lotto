@@ -1,4 +1,4 @@
-import InputHandler from "./InputHandler.js";
+import { InputHandler } from "./InputHandler.js";
 import Validator from "../Validator/validator.js";
 
 class InputView {
