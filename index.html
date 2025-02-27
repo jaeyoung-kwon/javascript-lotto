@@ -25,15 +25,22 @@
           <p class="body_title">🎱 내 번호 당첨 확인 🎱</p>
           <div class="purchase_wrapper">
             <p class="body_text">구입할 금액을 입력해주세요.</p>
-            <div class="purchase_input_wrapper">
+            <form class="purchase_input_wrapper">
               <input
                 id="purchaseInput"
                 class="purchase_input"
                 type="number"
                 placeholder="구입"
               />
-              <button id="purchaseButton" class="purchase_button">구입</button>
-            </div>
+              <button
+                type="submit"
+                tabindex="-1"
+                id="purchaseButton"
+                class="purchase_button"
+              >
+                구입
+              </button>
+            </form>
           </div>
         </div>
       </div>

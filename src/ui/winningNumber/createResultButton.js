@@ -8,6 +8,7 @@ export const createResultButton = () => {
   const resultButton = createDOMElement("button", {
     class: "result_button",
     id: "resultButton",
+    type: "submit",
     textContent: "결과 확인하기",
   });
 

@@ -4,7 +4,7 @@ import { createBonusNumberInput } from "./createBonusNumberInput.js";
 import { createWinningNumberInput } from "./createWinningNumberInput.js";
 
 export const createInputForm = () => {
-  const numberInputForm = createDOMElement("div", {
+  const numberInputForm = createDOMElement("form", {
     class: "number_input_form",
   });
 
