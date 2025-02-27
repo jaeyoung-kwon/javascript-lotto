@@ -5,21 +5,21 @@ import { renderBodyWrapper } from "../ui/main/renderBodyWrapper.js";
 import WebInput from "../view/WebInput.js";
 
 const WebController = {
-  init: () => {
+  init: function () {
     renderBodyWrapper();
     const purchaseButton = document.getElementById("purchaseButton");
     purchaseButton.addEventListener("click", (e) => {
       try {
         e.preventDefault();
 
-        WebController.purchaseLotto();
+        this.purchaseLotto();
       } catch (error) {
         alert(error.message);
       }
     });
   },
 
-  purchaseLotto: () => {
+  purchaseLotto: function () {
     const purchaseMoney = WebInput.getPurchaseMoney();
 
     const lottoMachine = new LottoMachine();
@@ -37,12 +37,12 @@ const WebController = {
     return result;
   },
 
-  restart: () => {
-    WebController.resetMain();
-    WebController.init();
+  restart: function () {
+    this.resetMain();
+    this.init();
   },
 
-  resetMain: () => {
+  resetMain: function () {
     const bodyContainer = document.querySelector(".body_container");
 
     while (bodyContainer.firstChild) {
