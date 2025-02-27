@@ -1,6 +1,7 @@
 import { RANK_INFO_TABLE } from "../constant/rank.js";
 import LottoCalculator from "../domain/lottoCalculator.js";
 import LottoMachine from "../domain/lottoMachine.js";
+import { renderResultModal } from "../ui/modal/renderResultModal.js";
 import { createDOMElement } from "../util/createDOMElement.js";
 
 class WebController {
@@ -153,7 +154,7 @@ class WebController {
     const resultButton = document.getElementById("resultButton");
     resultButton.addEventListener("click", () => {
       const result = this.calculateResult(lottos, purchaseMoney);
-      this.showResultModal(result);
+      renderResultModal(result);
     });
   }
 
@@ -169,109 +170,6 @@ class WebController {
     const lottoCalculator = new LottoCalculator(winningNumbers, bonusNumber);
     const result = lottoCalculator.calculateResult(lottos, purchaseMoney);
     return result;
-  }
-
-  showResultModal(result) {
-    if (document.querySelector(".modal_backdrop")) return;
-
-    const modalBackdrop = createDOMElement("div", { class: "modal_backdrop" });
-
-    const modalContainer = createDOMElement("div", {
-      class: "modal_container",
-    });
-
-    const closeButtonWrapper = createDOMElement("div", {
-      class: "modal_close_button_wrapper",
-    });
-    const closeButton = createDOMElement("button", {
-      class: "modal_close_button",
-      type: "button",
-      id: "modalCloseButton",
-    });
-    const closeIcon = createDOMElement("img", {
-      src: "/icon/close.svg",
-      alt: "Close",
-    });
-
-    closeButton.appendChild(closeIcon);
-    closeButtonWrapper.appendChild(closeButton);
-
-    const modalWrapper = createDOMElement("div", { class: "modal_wrapper" });
-    const modalTitle = createDOMElement("p", {
-      class: "modal_title",
-      textContent: "🏆 당첨 통계 🏆",
-    });
-
-    const modalTable = createDOMElement("div", { class: "modal_table" });
-
-    const tableData = [["일치 갯수", "당첨금", "당첨 갯수"]];
-
-    result.prize.forEach((rankLottos, rank) => {
-      const info = RANK_INFO_TABLE[rank];
-      tableData.push([
-        info.message,
-        info.price.toLocaleString(),
-        `${rankLottos.length}개`,
-      ]);
-    });
-
-    tableData.forEach((rowData, index) => {
-      modalTable.appendChild(
-        createDOMElement("div", { class: "modal_table_divider" })
-      );
-      const row = createDOMElement("div", { class: "modal_table_row" });
-
-      rowData.forEach((cellText) => {
-        const cell = createDOMElement("p", {
-          class: "modal_table_cell",
-          textContent: cellText,
-        });
-        row.appendChild(cell);
-      });
-
-      modalTable.appendChild(row);
-
-      if (index === tableData.length - 1) {
-        modalTable.appendChild(
-          createDOMElement("div", { class: "modal_table_divider" })
-        );
-      }
-    });
-
-    const modalProfitText = createDOMElement("p", {
-      class: "modal_profit_text",
-      textContent: `당신의 총 수익률은 ${result.profit}%입니다.`,
-    });
-    const restartButton = createDOMElement("button", {
-      class: "modal_restart_button",
-      type: "button",
-      textContent: "다시 시작하기",
-    });
-
-    // 구조 조립
-    modalWrapper.appendChild(modalTitle);
-    modalWrapper.appendChild(modalTable);
-    modalWrapper.appendChild(modalProfitText);
-    modalWrapper.appendChild(restartButton);
-
-    modalContainer.appendChild(closeButtonWrapper);
-    modalContainer.appendChild(modalWrapper);
-
-    modalBackdrop.appendChild(modalContainer);
-
-    // DOM에 추가
-    document.body.appendChild(modalBackdrop);
-
-    // 닫기 이벤트 추가
-    closeButton.addEventListener("click", () => {
-      modalBackdrop.remove();
-    });
-
-    modalBackdrop.addEventListener("click", (e) => {
-      if (e.target === modalBackdrop) {
-        modalBackdrop.remove();
-      }
-    });
   }
 }
 
