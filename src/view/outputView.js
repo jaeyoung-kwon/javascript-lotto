@@ -17,12 +17,12 @@ class OutputView {
     prize.forEach((rankLottos, rank) => {
       const info = RANK_INFO_TABLE[rank];
       console.log(
-        `${info.message} (${info.price.toLocaleString()}원) - ${
+        `${info.message} 일치 (${info.price.toLocaleString()}원) - ${
           rankLottos.length
         }개`
       );
     });
-    console.log(`총 수익률은 ${profit}%입니다.`);
+    console.log(`총 수익률은 ${profit.toFixed(2)}%입니다.`);
   }
 
   static printEmptyLine() {
