@@ -10,7 +10,7 @@ export const createModalBody = (result) => {
     createBodyTable(result.prize),
     createDOMElement("p", {
       class: "modal_profit_text",
-      textContent: `당신의 총 수익률은 ${result.profit}%입니다.`,
+      textContent: `당신의 총 수익률은 ${result.profit.toFixed(2)}%입니다.`,
     }),
     createDOMElement("button", {
       class: "modal_restart_button",

@@ -1,7 +1,6 @@
 import LottoCalculator from "../domain/lottoCalculator.js";
-import LottoMachine from "../domain/lottoMachine.js";
 import EventHandler from "../handler/EventHandler.js";
-import { renderLottoList } from "../ui/lotto/renderLottoList.js";
+import LottoState from "../state/LottoState.js";
 import { renderBodyWrapper } from "../ui/main/renderBodyWrapper.js";
 import WebInput from "../view/WebInput.js";
 
@@ -11,18 +10,12 @@ const WebController = {
     new EventHandler();
   },
 
-  purchaseLotto: function () {
-    const purchaseMoney = WebInput.getPurchaseMoney();
-
-    const lottoMachine = new LottoMachine();
-    const lottos = lottoMachine.drawLotto(purchaseMoney);
-
-    renderLottoList(lottos, purchaseMoney);
-  },
-
-  calculateResult: (lottos, purchaseMoney) => {
+  calculateResult: () => {
     const winningNumbers = WebInput.getWinningNumbers();
     const bonusNumber = WebInput.getBonusNumber(winningNumbers);
+
+    const lottos = LottoState.getLottos();
+    const purchaseMoney = LottoState.getPurchaseMoney();
 
     const lottoCalculator = new LottoCalculator(winningNumbers, bonusNumber);
     const result = lottoCalculator.calculateResult(lottos, purchaseMoney);

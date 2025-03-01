@@ -1,28 +1,15 @@
+import LottoState from "../../state/LottoState.js";
 import { createDOMElement } from "../../util/createDOMElement.js";
+import { createLottoListElement } from "./createLottoListElement.js";
 
-export const createLottoList = (lottos) => {
+export const createLottoList = () => {
+  const lottos = LottoState.getLottos();
+
   return createDOMElement(
     "div",
     {
       class: "lotto_list",
     },
-    lottos.map((lotto) =>
-      createDOMElement(
-        "div",
-        {
-          class: "lotto_row",
-        },
-        [
-          createDOMElement("div", {
-            class: "lotto_icon",
-            textContent: "🎟️",
-          }),
-          createDOMElement("p", {
-            class: "body_text",
-            textContent: lotto.numbers.join(", "),
-          }),
-        ]
-      )
-    )
+    lottos.map((lotto) => createLottoListElement(lotto))
   );
 };

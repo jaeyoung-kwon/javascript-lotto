@@ -6,12 +6,20 @@ class LottoState {
     this.#lottos = lottos;
   }
 
+  addLottos(lottos) {
+    this.#lottos = [...this.#lottos, ...lottos];
+  }
+
   getLottos() {
     return Array.from(this.#lottos);
   }
 
   setPurchaseMoney(money) {
     this.#purchaseMoney = money;
+  }
+
+  addPurchaseMoney(money) {
+    this.#purchaseMoney += money;
   }
 
   getPurchaseMoney() {

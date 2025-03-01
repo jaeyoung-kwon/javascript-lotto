@@ -22,7 +22,7 @@ class OutputView {
         }개`
       );
     });
-    console.log(`총 수익률은 ${profit}%입니다.`);
+    console.log(`총 수익률은 ${profit.toFixed(2)}%입니다.`);
   }
 
   static printEmptyLine() {
