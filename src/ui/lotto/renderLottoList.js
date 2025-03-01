@@ -1,26 +1,20 @@
 import { createDOMElement } from "../../util/createDOMElement.js";
-import { createLottoList } from "./createLottoList.js";
 import { createInputForm } from "../winningNumber/createInputForm.js";
-import WebController from "../../controller/WebController.js";
-import { renderResultModal } from "../modal/renderResultModal.js";
+import { createLottoLength } from "./createLottoLength.js";
+import { createLottoList } from "./createLottoList.js";
 
-export const renderLottoList = (lottos, purchaseMoney) => {
-  const lottoListWrapper = createDOMElement("div", {
-    class: "lotto_list_wrapper",
-  });
-
-  const lottoLengthText = createDOMElement("p", {
-    class: "body_text",
-    textContent: `총 ${lottos.length}개를 구매하였습니다.`,
-  });
-
-  const lottoList = createLottoList(lottos);
-
-  const numberInputForm = createInputForm();
-
-  lottoListWrapper.appendChild(lottoLengthText);
-  lottoListWrapper.appendChild(lottoList);
-  lottoListWrapper.appendChild(numberInputForm);
+export const renderLottoList = (lottos) => {
+  const lottoListWrapper = createDOMElement(
+    "div",
+    {
+      class: "lotto_list_wrapper",
+    },
+    [
+      createLottoLength(lottos.length),
+      createLottoList(lottos),
+      createInputForm(),
+    ]
+  );
 
   const bodyWrapper = document.querySelector(".body_wrapper");
 

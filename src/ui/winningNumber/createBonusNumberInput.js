@@ -1,19 +1,7 @@
 import { createDOMElement } from "../../util/createDOMElement.js";
 
 export const createBonusNumberInput = () => {
-  const bonusNumberInputBox = createDOMElement("div", {
-    class: "number_input_box",
-  });
-
-  const bonusNumberTitle = createDOMElement("p", {
-    class: "body_text",
-    textContent: "보너스 번호",
-  });
-
-  const bonusNumberInputWrapper = createDOMElement("div", {
-    class: "number_input_wrapper",
-  });
-
+  // input event listener 추가하기
   const bonusNumberInput = createDOMElement("input", {
     id: "bonusNumberInput",
     class: "number_input",
@@ -26,10 +14,23 @@ export const createBonusNumberInput = () => {
     }
   });
 
-  bonusNumberInputWrapper.appendChild(bonusNumberInput);
-
-  bonusNumberInputBox.appendChild(bonusNumberTitle);
-  bonusNumberInputBox.appendChild(bonusNumberInputWrapper);
-
-  return bonusNumberInputBox;
+  return createDOMElement(
+    "div",
+    {
+      class: "number_input_box",
+    },
+    [
+      createDOMElement("p", {
+        class: "body_text",
+        textContent: "보너스 번호",
+      }),
+      createDOMElement(
+        "div",
+        {
+          class: "number_input_wrapper",
+        },
+        bonusNumberInput
+      ),
+    ]
+  );
 };
