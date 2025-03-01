@@ -1,4 +1,4 @@
-import { LOTTO_RULE } from "../../constant/rule";
+import { LOTTO_RULE } from "../../constant/rule.js";
 import { createDOMElement } from "../../util/createDOMElement.js";
 
 export const createWinningNumberInput = () => {
