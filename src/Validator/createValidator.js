@@ -1,4 +1,4 @@
-import { throwCustomError } from "../util/throwCustomError";
+import { throwCustomError } from "../util/throwCustomError.js";
 
 export const createValidator = (rules, value) => {
   rules.forEach(([validateFunction, errorMessage]) => {
