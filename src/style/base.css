@@ -12,6 +12,12 @@ body p {
   font-family: "Roboto";
 }
 
+#app {
+  display: flex;
+  flex-direction: column;
+  height: 100vh; /* 명확한 높이 설정 */
+}
+
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
   -webkit-appearance: none;

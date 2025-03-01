@@ -1,9 +1,6 @@
 .footer_container {
   width: 100%;
-  height: 80px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  padding: 32px;
   background-color: #ffffff;
   border-top: solid 1px rgba(78, 91, 166, 0.2);
 }
