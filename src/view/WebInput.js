@@ -1,6 +1,6 @@
 import { LOTTO_RULE } from "../constant/rule.js";
 import Validator from "../Validator/validator.js";
-import { WebInputHandler } from "./InputHandler.js";
+import WebInputHandler from "./WebInputHandler.js";
 
 const WebInput = {
   getPurchaseMoney: () => {
