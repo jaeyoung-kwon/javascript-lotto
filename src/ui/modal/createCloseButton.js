@@ -1,4 +1,4 @@
-import { createDOMElement } from "../../util/createDOMElement";
+import { createDOMElement } from "../../util/createDOMElement.js";
 
 export const createCloseButton = () => {
   return createDOMElement(
