@@ -6,9 +6,9 @@ export const createCloseButton = () => {
   });
 
   const closeButton = createDOMElement("button", {
+    id: "modalCloseButton",
     class: "modal_close_button",
     type: "button",
-    id: "modalCloseButton",
   });
   const closeIcon = createDOMElement("img", {
     src: "/icon/close.svg",

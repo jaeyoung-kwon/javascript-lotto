@@ -25,16 +25,4 @@ export const renderLottoList = (lottos, purchaseMoney) => {
   const bodyWrapper = document.querySelector(".body_wrapper");
 
   bodyWrapper.appendChild(lottoListWrapper);
-
-  const resultButton = document.getElementById("resultButton");
-  resultButton.addEventListener("click", (e) => {
-    try {
-      e.preventDefault();
-
-      const result = WebController.calculateResult(lottos, purchaseMoney);
-      renderResultModal(result);
-    } catch (error) {
-      alert(error.message);
-    }
-  });
 };

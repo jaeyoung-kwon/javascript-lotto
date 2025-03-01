@@ -1,5 +1,6 @@
 import LottoCalculator from "../domain/lottoCalculator.js";
 import LottoMachine from "../domain/lottoMachine.js";
+import EventHandler from "../handler/EventHandler.js";
 import { renderLottoList } from "../ui/lotto/renderLottoList.js";
 import { renderBodyWrapper } from "../ui/main/renderBodyWrapper.js";
 import WebInput from "../view/WebInput.js";
@@ -7,16 +8,7 @@ import WebInput from "../view/WebInput.js";
 const WebController = {
   init: function () {
     renderBodyWrapper();
-    const purchaseButton = document.getElementById("purchaseButton");
-    purchaseButton.addEventListener("click", (e) => {
-      try {
-        e.preventDefault();
-
-        this.purchaseLotto();
-      } catch (error) {
-        alert(error.message);
-      }
-    });
+    new EventHandler();
   },
 
   purchaseLotto: function () {

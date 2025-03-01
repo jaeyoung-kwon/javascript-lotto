@@ -141,3 +141,7 @@
   border: none;
   color: white;
 }
+
+button:disabled {
+  background-color: #b4b4b4;
+}
