@@ -14,7 +14,7 @@ export const createCloseButton = () => {
         type: "button",
       },
       createDOMElement("img", {
-        src: "../../../public/icon/close.svg",
+        src: "icon/close.svg",
         alt: "Close",
       })
     )

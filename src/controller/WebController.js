@@ -5,12 +5,12 @@ import { renderBodyWrapper } from "../ui/main/renderBodyWrapper.js";
 import WebInput from "../view/WebInput.js";
 
 const WebController = {
-  init: function () {
+  init() {
     renderBodyWrapper();
     new EventHandler();
   },
 
-  calculateResult: () => {
+  calculateResult() {
     const winningNumbers = WebInput.getWinningNumbers();
     const bonusNumber = WebInput.getBonusNumber(winningNumbers);
 
@@ -22,12 +22,12 @@ const WebController = {
     return result;
   },
 
-  restart: function () {
+  restart() {
     this.resetMain();
     this.init();
   },
 
-  resetMain: function () {
+  resetMain() {
     const bodyContainer = document.querySelector(".body_container");
 
     while (bodyContainer.firstChild) {
