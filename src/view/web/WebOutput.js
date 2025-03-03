@@ -6,6 +6,8 @@ import { createCloseButton } from "../../ui/modal/createCloseButton.js";
 import { createModalBody } from "../../ui/modal/createModalBody.js";
 import { createInputForm } from "../../ui/winningNumber/createInputForm";
 import { createDOMElement } from "../../util/createDOMElement.js";
+import { createLottoListElement } from "../../ui/lotto/createLottoListElement.js";
+import LottoState from "../../state/LottoState.js";
 
 const WebOutput = {
   renderBodyWrapper() {
@@ -54,6 +56,13 @@ const WebOutput = {
     );
 
     document.body.appendChild(modalBackdrop);
+  },
+
+  disableButtons() {
+    const purchaseButton = document.getElementById("purchaseButton");
+    purchaseButton.disabled = true;
+    const resultButton = document.getElementById("resultButton");
+    resultButton.disabled = true;
   },
 
   appendLottoList(lottos) {
