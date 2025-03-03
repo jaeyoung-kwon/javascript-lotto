@@ -1,13 +1,14 @@
 import LottoCalculator from "../domain/lottoCalculator.js";
 import EventHandler from "../handler/EventHandler.js";
 import LottoState from "../state/LottoState.js";
-import { renderBodyWrapper } from "../ui/main/renderBodyWrapper.js";
 import WebInput from "../view/web/WebInput.js";
+import WebOutput from "../view/web/WebOutput.js";
 
 const WebController = {
   init() {
-    renderBodyWrapper();
     new EventHandler();
+
+    WebOutput.renderBodyWrapper();
   },
 
   calculateResult() {
@@ -23,16 +24,8 @@ const WebController = {
   },
 
   restart() {
-    this.resetMain();
+    WebOutput.resetMain();
     this.init();
-  },
-
-  resetMain() {
-    const bodyContainer = document.querySelector(".body_container");
-
-    while (bodyContainer.firstChild) {
-      bodyContainer.removeChild(bodyContainer.firstChild);
-    }
   },
 };
 

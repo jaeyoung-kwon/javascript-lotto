@@ -1,9 +1,7 @@
 import WebController from "../controller/WebController.js";
 import LottoMachine from "../domain/lottoMachine.js";
 import LottoState from "../state/LottoState.js";
-import { appendLottoList } from "../ui/lotto/appendLottoList.js";
-import { renderLottoList } from "../ui/lotto/renderLottoList.js";
-import { renderResultModal } from "../ui/modal/renderResultModal.js";
+import WebOutput from "../view/web/WebOutput.js";
 import WebInput from "../view/web/WebInput.js";
 
 class EventHandler {
@@ -24,11 +22,11 @@ class EventHandler {
       if (lottoList) {
         LottoState.addLottos(lottos);
         LottoState.addPurchaseMoney(purchaseMoney);
-        appendLottoList(lottos);
+        WebOutput.appendLottoList(lottos);
       } else {
         LottoState.setLottos(lottos);
         LottoState.setPurchaseMoney(purchaseMoney);
-        renderLottoList();
+        WebOutput.renderLottoList();
       }
     } catch (error) {
       alert(error.message);
@@ -40,7 +38,7 @@ class EventHandler {
       event.preventDefault();
 
       const result = WebController.calculateResult();
-      renderResultModal(result);
+      WebOutput.renderResultModal(result);
 
       const purchaseButton = document.getElementById("purchaseButton");
       purchaseButton.disabled = true;
