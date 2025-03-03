@@ -13,10 +13,11 @@ import {
 } from "../util/validations.js";
 import { throwCustomError } from "../util/throwCustomError.js";
 import { createValidator } from "./createValidator.js";
+import { ERROR_TYPE } from "../constant/errorType.js";
 
 const Validator = {
   validatePurchaseMoney(purchaseMoney) {
-    this.validateNumber(purchaseMoney, "purchaseMoney");
+    this.validateNumber(purchaseMoney, ERROR_TYPE.purchaseMoney);
 
     if (isLessThanMin(purchaseMoney, 1))
       throwCustomError(ERROR_MESSAGE.purchaseMoney.notPositive);
@@ -26,8 +27,8 @@ const Validator = {
 
   validateWinningNumbers(winningNumbers) {
     winningNumbers.forEach((winningNumber) => {
-      this.validateNumber(winningNumber, "winningNumbers");
-      this.validateLottoNumberRange(winningNumber, "winningNumbers");
+      this.validateNumber(winningNumber, ERROR_TYPE.winningNumbers);
+      this.validateLottoNumberRange(winningNumber, ERROR_TYPE.winningNumbers);
     });
 
     if (isDuplicated(winningNumbers)) {
@@ -39,8 +40,8 @@ const Validator = {
   },
 
   validateBonusNumber(winningNumbers, bonusNumber) {
-    this.validateNumber(bonusNumber, "bonusNumber");
-    this.validateLottoNumberRange(bonusNumber, "bonusNumber");
+    this.validateNumber(bonusNumber, ERROR_TYPE.bonusNumber);
+    this.validateLottoNumberRange(bonusNumber, ERROR_TYPE.bonusNumber);
 
     if (isIncludesInArray(winningNumbers, bonusNumber))
       throwCustomError(ERROR_MESSAGE.bonusNumber.duplicateWithWinningNumber);
