@@ -8,7 +8,7 @@ export const createWinningNumberInput = () => {
       class: "number_input_box",
     },
     [
-      createDOMElement("p", {
+      createDOMElement("label", {
         class: "body_text",
         textContent: "당첨 번호",
       }),

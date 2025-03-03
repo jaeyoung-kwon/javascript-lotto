@@ -20,7 +20,7 @@ export const createBonusNumberInput = () => {
       class: "number_input_box",
     },
     [
-      createDOMElement("p", {
+      createDOMElement("label", {
         class: "body_text",
         textContent: "보너스 번호",
       }),
