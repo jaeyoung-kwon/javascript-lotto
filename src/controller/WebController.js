@@ -2,7 +2,7 @@ import LottoCalculator from "../domain/lottoCalculator.js";
 import EventHandler from "../handler/EventHandler.js";
 import LottoState from "../state/LottoState.js";
 import { renderBodyWrapper } from "../ui/main/renderBodyWrapper.js";
-import WebInput from "../view/WebInput.js";
+import WebInput from "../view/web/WebInput.js";
 
 const WebController = {
   init() {

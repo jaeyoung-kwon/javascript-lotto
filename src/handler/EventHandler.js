@@ -4,7 +4,7 @@ import LottoState from "../state/LottoState.js";
 import { appendLottoList } from "../ui/lotto/appendLottoList.js";
 import { renderLottoList } from "../ui/lotto/renderLottoList.js";
 import { renderResultModal } from "../ui/modal/renderResultModal.js";
-import WebInput from "../view/WebInput.js";
+import WebInput from "../view/web/WebInput.js";
 
 class EventHandler {
   constructor() {

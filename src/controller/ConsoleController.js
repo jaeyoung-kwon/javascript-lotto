@@ -1,7 +1,7 @@
 import LottoCalculator from "../domain/lottoCalculator.js";
 import LottoMachine from "../domain/lottoMachine.js";
-import InputView from "../view/InputView.js";
-import OutputView from "../view/outputView.js";
+import InputView from "../view/console/InputView.js";
+import OutputView from "../view/console/OutputView.js";
 
 class ConsoleController {
   async run() {
