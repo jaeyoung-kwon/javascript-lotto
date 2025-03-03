@@ -3,23 +3,23 @@ import Validator from "../Validator/validator.js";
 import WebInputHandler from "./WebInputHandler.js";
 
 const WebInput = {
-  getPurchaseMoney: () => {
+  getPurchaseMoney() {
     return WebInputHandler({
       elementIds: "purchaseInput",
       parser: Number,
-      validator: Validator.validatePurchaseMoney,
+      validator: (input) => Validator.validatePurchaseMoney(input),
     });
   },
-  getWinningNumbers: () => {
+  getWinningNumbers() {
     return WebInputHandler({
       elementIds: Array.from({ length: LOTTO_RULE.lottoNumber.count }).map(
         (_, index) => `winningNumberInput${index}`
       ),
       parser: Number,
-      validator: Validator.validateWinningNumbers,
+      validator: (input) => Validator.validateWinningNumbers(input),
     });
   },
-  getBonusNumber: (winningNumbers) => {
+  getBonusNumber(winningNumbers) {
     return WebInputHandler({
       elementIds: "bonusNumberInput",
       parser: Number,
