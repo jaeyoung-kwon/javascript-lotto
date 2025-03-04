@@ -1,7 +1,9 @@
 import WebController from "./controller/WebController.js";
-import EventHandler from "./handler/EventHandler.js";
+import ClickEventHandler from "./handler/ClickEventHandler.js";
+import InputEventHandler from "./handler/InputEventHandler.js";
 
 const controller = new WebController();
 
-new EventHandler(controller);
+new ClickEventHandler(controller);
+new InputEventHandler();
 controller.init();
