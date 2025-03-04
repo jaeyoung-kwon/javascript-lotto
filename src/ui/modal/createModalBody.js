@@ -3,7 +3,7 @@ import { createBodyTable } from "./createBodyTable.js";
 
 export const createModalBody = (result) => {
   return createDOMElement("div", { class: "modal_wrapper" }, [
-    createDOMElement("p", {
+    createDOMElement("h2", {
       class: "modal_title",
       textContent: "🏆 당첨 통계 🏆",
     }),
