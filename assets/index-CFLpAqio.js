@@ -1,12 +1,15 @@
+var __defProp = Object.defineProperty;
 var __typeError = (msg) => {
   throw TypeError(msg);
 };
+var __defNormalProp = (obj, key, value) => key in obj ? __defProp(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "symbol" ? key + "" : key, value);
 var __accessCheck = (obj, member, msg) => member.has(obj) || __typeError("Cannot " + msg);
 var __privateGet = (obj, member, getter) => (__accessCheck(obj, member, "read from private field"), getter ? getter.call(obj) : member.get(obj));
 var __privateAdd = (obj, member, value) => member.has(obj) ? __typeError("Cannot add the same private member more than once") : member instanceof WeakSet ? member.add(obj) : member.set(obj, value);
 var __privateSet = (obj, member, value, setter) => (__accessCheck(obj, member, "write to private field"), setter ? setter.call(obj, value) : member.set(obj, value), value);
 var __privateMethod = (obj, member, method) => (__accessCheck(obj, member, "access private method"), method);
-var _winningNumbers, _bonusNumber, _prize, _LottoCalculator_instances, calculateLottoPrize_fn, getRank_fn, _numbers, _generateRandomNumbers, _LottoMachine_instances, getLottoCount_fn, _lottos, _purchaseMoney, _WebController_instances, updateLottoList_fn, calculateResult_fn, modalClose_fn, restart_fn, _EventHandler_instances, getHandler_fn;
+var _winningNumbers, _bonusNumber, _prize, _LottoCalculator_instances, calculateLottoPrize_fn, getRank_fn, _numbers, _generateRandomNumbers, _LottoMachine_instances, getLottoCount_fn, _lottos, _purchaseMoney, _WebController_instances, updateLottoList_fn, calculateResult_fn, modalClose_fn, restart_fn, _InputEventHandler_instances, generateWinningNumberActions_fn, limitInputLength_fn;
 (function polyfill() {
   const relList = document.createElement("link").relList;
   if (relList && relList.supports && relList.supports("modulepreload")) {
@@ -528,16 +531,6 @@ const createResultButton = () => {
   );
 };
 const createBonusNumberInput = () => {
-  const bonusNumberInput = createDOMElement("input", {
-    id: "bonusNumberInput",
-    class: "number_input",
-    type: "number"
-  });
-  bonusNumberInput.addEventListener("input", function() {
-    if (this.value.length > 2) {
-      this.value = this.value.slice(0, 2);
-    }
-  });
   return createDOMElement(
     "div",
     {
@@ -553,7 +546,11 @@ const createBonusNumberInput = () => {
         {
           class: "number_input_wrapper"
         },
-        bonusNumberInput
+        createDOMElement("input", {
+          id: "bonusNumberInput",
+          class: "number_input",
+          type: "number"
+        })
       )
     ]
   );
@@ -574,19 +571,13 @@ const createWinningNumberInput = () => {
         {
           class: "number_input_wrapper"
         },
-        Array.from({ length: LOTTO_RULE.lottoNumber.count }).map((_, index) => {
-          const winningNumberInput = createDOMElement("input", {
+        Array.from({ length: LOTTO_RULE.lottoNumber.count }).map(
+          (_, index) => createDOMElement("input", {
             id: `winningNumberInput${index}`,
             class: "number_input",
             type: "number"
-          });
-          winningNumberInput.addEventListener("input", function() {
-            if (this.value.length > 2) {
-              this.value = this.value.slice(0, 2);
-            }
-          });
-          return winningNumberInput;
-        })
+          })
+        )
       )
     ]
   );
@@ -743,32 +734,70 @@ restart_fn = function() {
   WebOutput.resetMain();
   this.init();
 };
-class EventHandler {
-  constructor(controller2) {
-    __privateAdd(this, _EventHandler_instances);
-    this.controller = controller2;
-    this._elem = document.body;
-    this._elem.onclick = this.onClick.bind(this);
+class EventDelegation {
+  constructor({ rootElement, actions, eventType }) {
+    this.rootElement = rootElement;
+    this.actions = actions;
+    this.rootElement.addEventListener(
+      eventType,
+      (event) => this.handleEvent(event)
+    );
   }
-  onClick(event) {
+  handleEvent(event) {
     const targetElement = event.target.closest("[id]");
-    if (targetElement) {
-      const handler = __privateMethod(this, _EventHandler_instances, getHandler_fn).call(this, targetElement.id);
-      handler == null ? void 0 : handler(event);
+    if (targetElement && this.actions[targetElement.id]) {
+      this.actions[targetElement.id](event);
     }
   }
 }
-_EventHandler_instances = new WeakSet();
-getHandler_fn = function(buttonId) {
-  const handlers = {
-    purchaseButton: this.controller.handlePurchase.bind(this.controller),
-    resultButton: this.controller.handleResult.bind(this.controller),
-    modalRestartButton: this.controller.handleRestart.bind(this.controller),
-    modalCloseButton: this.controller.handleCloseModal.bind(this.controller),
-    modalBackdrop: this.controller.handleCloseModal.bind(this.controller)
-  };
-  return handlers[buttonId];
+class ClickEventHandler {
+  constructor(controller2) {
+    this.controller = controller2;
+    new EventDelegation({
+      rootElement: document.body,
+      actions: {
+        purchaseButton: this.controller.handlePurchase.bind(this.controller),
+        resultButton: this.controller.handleResult.bind(this.controller),
+        modalRestartButton: this.controller.handleRestart.bind(this.controller),
+        modalCloseButton: this.controller.handleCloseModal.bind(
+          this.controller
+        ),
+        modalBackdrop: this.controller.handleCloseModal.bind(this.controller)
+      },
+      eventType: "click"
+    });
+  }
+}
+class InputEventHandler {
+  constructor() {
+    __privateAdd(this, _InputEventHandler_instances);
+    __publicField(this, "NUMBER_MAX_LENGTH", 2);
+    new EventDelegation({
+      rootElement: document.body,
+      actions: {
+        ...__privateMethod(this, _InputEventHandler_instances, generateWinningNumberActions_fn).call(this),
+        bonusNumberInput: __privateMethod(this, _InputEventHandler_instances, limitInputLength_fn).bind(this)
+      },
+      eventType: "input"
+    });
+  }
+}
+_InputEventHandler_instances = new WeakSet();
+generateWinningNumberActions_fn = function() {
+  return Array.from(
+    { length: 6 },
+    (_, index) => `winningNumberInput${index}`
+  ).reduce((actions, id) => {
+    actions[id] = __privateMethod(this, _InputEventHandler_instances, limitInputLength_fn).bind(this);
+    return actions;
+  }, {});
+};
+limitInputLength_fn = function(event) {
+  if (event.target.value.length > this.NUMBER_MAX_LENGTH) {
+    event.target.value = event.target.value.slice(0, this.NUMBER_MAX_LENGTH);
+  }
 };
 const controller = new WebController();
-new EventHandler(controller);
+new ClickEventHandler(controller);
+new InputEventHandler();
 controller.init();
