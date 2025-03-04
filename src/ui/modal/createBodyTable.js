@@ -13,22 +13,27 @@ export const createBodyTable = (prize) => {
     ]);
   });
 
-  return createDOMElement("div", { class: "modal_table" }, [
-    ...tableData
-      .map((rowData) => [
-        createDOMElement("div", { class: "modal_table_divider" }),
-        createDOMElement(
-          "div",
-          { class: "modal_table_row" },
-          rowData.map((cellText) =>
-            createDOMElement("p", {
-              class: "modal_table_cell",
-              textContent: cellText,
-            })
-          )
-        ),
-      ])
-      .flat(),
-    createDOMElement("div", { class: "modal_table_divider" }),
-  ]);
+  return createDOMElement({
+    tag: "div",
+    class: "modal_table",
+    children: [
+      ...tableData
+        .map((rowData) => [
+          createDOMElement({ tag: "div", class: "modal_table_divider" }),
+          createDOMElement({
+            tag: "div",
+            class: "modal_table_row",
+            children: rowData.map((cellText) =>
+              createDOMElement({
+                tag: "p",
+                class: "modal_table_cell",
+                textContent: cellText,
+              })
+            ),
+          }),
+        ])
+        .flat(),
+      createDOMElement({ tag: "div", class: "modal_table_divider" }),
+    ],
+  });
 };

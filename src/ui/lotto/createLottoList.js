@@ -5,11 +5,9 @@ import { createLottoListElement } from "./createLottoListElement.js";
 export const createLottoList = () => {
   const lottos = LottoState.getLottos();
 
-  return createDOMElement(
-    "div",
-    {
-      class: "lotto_list",
-    },
-    lottos.map((lotto) => createLottoListElement(lotto))
-  );
+  return createDOMElement({
+    tag: "div",
+    class: "lotto_list",
+    children: lottos.map((lotto) => createLottoListElement(lotto)),
+  });
 };

@@ -11,26 +11,22 @@ import LottoState from "../../state/LottoState.js";
 
 const WebOutput = {
   renderBodyWrapper() {
-    const bodyWrapper = createDOMElement(
-      "div",
-      {
-        class: "body_wrapper",
-      },
-      [createBodyTitle(), createPurchaseWrapper()]
-    );
+    const bodyWrapper = createDOMElement({
+      tag: "div",
+      class: "body_wrapper",
+      children: [createBodyTitle(), createPurchaseWrapper()],
+    });
 
     const main = document.querySelector(".body_container");
     main.appendChild(bodyWrapper);
   },
 
   renderLottoList() {
-    const lottoListWrapper = createDOMElement(
-      "div",
-      {
-        class: "lotto_list_wrapper",
-      },
-      [createLottoLength(), createLottoList(), createInputForm()]
-    );
+    const lottoListWrapper = createDOMElement({
+      tag: "div",
+      class: "lotto_list_wrapper",
+      children: [createLottoLength(), createLottoList(), createInputForm()],
+    });
 
     const bodyWrapper = document.querySelector(".body_wrapper");
 
@@ -40,20 +36,18 @@ const WebOutput = {
   renderResultModal(result) {
     if (document.querySelector(".modal_backdrop")) return;
 
-    const modalBackdrop = createDOMElement(
-      "div",
-      {
-        class: "modal_backdrop",
-        id: "modalBackdrop",
-      },
-      createDOMElement(
-        "div",
-        {
+    const modalBackdrop = createDOMElement({
+      tag: "div",
+      class: "modal_backdrop",
+      id: "modalBackdrop",
+      children: [
+        createDOMElement({
+          tag: "div",
           class: "modal_container",
-        },
-        [createCloseButton(), createModalBody(result)]
-      )
-    );
+          children: [createCloseButton(), createModalBody(result)],
+        }),
+      ],
+    });
 
     document.body.appendChild(modalBackdrop);
   },
