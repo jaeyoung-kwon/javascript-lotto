@@ -359,7 +359,7 @@ const WebInput = {
     });
   }
 };
-const createDOMElement = (tag, props = {}, ...children) => {
+const createDOMElement = ({ tag, children, ...props }) => {
   if (!tag) throw new Error("Tag is required");
   const element = document.createElement(tag);
   Object.entries(props).forEach(([key, value]) => {
@@ -374,101 +374,104 @@ const createDOMElement = (tag, props = {}, ...children) => {
     }
     element[key] = value;
   });
-  children.flat().forEach((child) => {
-    element.appendChild(child);
-  });
+  if (children) {
+    children.forEach((child) => {
+      element.appendChild(child);
+    });
+  }
   return element;
 };
 const createLottoLength = () => {
   const lottoLength = LottoState$1.getLottos().length;
-  return createDOMElement("h3", {
+  return createDOMElement({
+    tag: "h3",
     class: "body_text",
     textContent: `총 ${lottoLength}개를 구매하였습니다.`
   });
 };
 const createLottoListElement = (lotto) => {
-  return createDOMElement(
-    "div",
-    {
-      class: "lotto_row"
-    },
-    [
-      createDOMElement("div", {
+  return createDOMElement({
+    tag: "div",
+    class: "lotto_row",
+    children: [
+      createDOMElement({
+        tag: "div",
         class: "lotto_icon",
         textContent: "🎟️"
       }),
-      createDOMElement("p", {
+      createDOMElement({
+        tag: "p",
         class: "body_text",
         textContent: lotto.numbers.join(", ")
       })
     ]
-  );
+  });
 };
 const createLottoList = () => {
   const lottos = LottoState$1.getLottos();
-  return createDOMElement(
-    "div",
-    {
-      class: "lotto_list"
-    },
-    lottos.map((lotto) => createLottoListElement(lotto))
-  );
+  return createDOMElement({
+    tag: "div",
+    class: "lotto_list",
+    children: lottos.map((lotto) => createLottoListElement(lotto))
+  });
 };
 const createBodyTitle = () => {
-  return createDOMElement("h2", {
+  return createDOMElement({
+    tag: "h2",
     class: "body_title",
     textContent: "🎱 내 번호 당첨 확인 🎱"
   });
 };
 const createPurchaseWrapper = () => {
-  const purchaseWrapper = createDOMElement(
-    "div",
-    {
-      class: "purchase_wrapper"
-    },
-    createDOMElement(
-      "form",
-      {
-        class: "purchase_input_wrapper"
-      },
-      [
-        createDOMElement("input", {
-          id: "purchaseInput",
-          class: "purchase_input",
-          type: "number",
-          placeholder: "구입"
-        }),
-        createDOMElement("button", {
-          type: "submit",
-          tabindex: "-1",
-          id: "purchaseButton",
-          class: "purchase_button",
-          textContent: "구입"
-        })
-      ]
-    )
-  );
+  const purchaseWrapper = createDOMElement({
+    tag: "div",
+    class: "purchase_wrapper",
+    children: [
+      createDOMElement({
+        tag: "form",
+        class: "purchase_input_wrapper",
+        children: [
+          createDOMElement({
+            tag: "input",
+            id: "purchaseInput",
+            class: "purchase_input",
+            type: "number",
+            placeholder: "구입"
+          }),
+          createDOMElement({
+            tag: "button",
+            type: "submit",
+            tabindex: "-1",
+            id: "purchaseButton",
+            class: "purchase_button",
+            textContent: "구입"
+          })
+        ]
+      })
+    ]
+  });
   return purchaseWrapper;
 };
 const createCloseButton = () => {
-  return createDOMElement(
-    "div",
-    {
-      class: "modal_close_button_wrapper"
-    },
-    createDOMElement(
-      "button",
-      {
+  return createDOMElement({
+    tag: "div",
+    class: "modal_close_button_wrapper",
+    children: [
+      createDOMElement({
+        tag: "button",
         id: "modalCloseButton",
         class: "modal_close_button",
-        type: "button"
-      },
-      createDOMElement("img", {
-        src: "icon/close.svg",
-        alt: "Close"
+        type: "button",
+        children: [
+          createDOMElement({
+            tag: "img",
+            src: "icon/close.svg",
+            alt: "Close"
+          })
+        ]
       })
-    )
-  );
+    ]
+  });
 };
 const createBodyTable = (prize) => {
   const tableData = [["일치 갯수", "당첨금", "당첨 갯수"]];
@@ -480,169 +483,171 @@ const createBodyTable = (prize) => {
       `${rankLottos.length}개`
     ]);
   });
-  return createDOMElement("div", { class: "modal_table" }, [
-    ...tableData.map((rowData) => [
-      createDOMElement("div", { class: "modal_table_divider" }),
-      createDOMElement(
-        "div",
-        { class: "modal_table_row" },
-        rowData.map(
-          (cellText) => createDOMElement("p", {
-            class: "modal_table_cell",
-            textContent: cellText
-          })
-        )
-      )
-    ]).flat(),
-    createDOMElement("div", { class: "modal_table_divider" })
-  ]);
+  return createDOMElement({
+    tag: "div",
+    class: "modal_table",
+    children: [
+      ...tableData.map((rowData) => [
+        createDOMElement({ tag: "div", class: "modal_table_divider" }),
+        createDOMElement({
+          tag: "div",
+          class: "modal_table_row",
+          children: rowData.map(
+            (cellText) => createDOMElement({
+              tag: "p",
+              class: "modal_table_cell",
+              textContent: cellText
+            })
+          )
+        })
+      ]).flat(),
+      createDOMElement({ tag: "div", class: "modal_table_divider" })
+    ]
+  });
 };
 const createModalBody = (result) => {
-  return createDOMElement("div", { class: "modal_wrapper" }, [
-    createDOMElement("h2", {
-      class: "modal_title",
-      textContent: "🏆 당첨 통계 🏆"
-    }),
-    createBodyTable(result.prize),
-    createDOMElement("p", {
-      class: "modal_profit_text",
-      textContent: `당신의 총 수익률은 ${result.profit.toFixed(2)}%입니다.`
-    }),
-    createDOMElement("button", {
-      class: "modal_restart_button",
-      id: "modalRestartButton",
-      type: "button",
-      textContent: "다시 시작하기"
-    })
-  ]);
+  return createDOMElement({
+    tag: "div",
+    class: "modal_wrapper",
+    children: [
+      createDOMElement({
+        tag: "h2",
+        class: "modal_title",
+        textContent: "🏆 당첨 통계 🏆"
+      }),
+      createBodyTable(result.prize),
+      createDOMElement({
+        tag: "p",
+        class: "modal_profit_text",
+        textContent: `당신의 총 수익률은 ${result.profit.toFixed(2)}%입니다.`
+      }),
+      createDOMElement({
+        tag: "button",
+        class: "modal_restart_button",
+        id: "modalRestartButton",
+        type: "button",
+        textContent: "다시 시작하기"
+      })
+    ]
+  });
 };
 const createResultButton = () => {
-  return createDOMElement(
-    "div",
-    {
-      class: "result_button_wrapper"
-    },
-    createDOMElement("button", {
-      class: "result_button",
-      id: "resultButton",
-      type: "submit",
-      textContent: "결과 확인하기"
-    })
-  );
+  return createDOMElement({
+    tag: "div",
+    class: "result_button_wrapper",
+    children: [
+      createDOMElement({
+        tag: "button",
+        class: "result_button",
+        id: "resultButton",
+        type: "submit",
+        textContent: "결과 확인하기"
+      })
+    ]
+  });
 };
 const createBonusNumberInput = () => {
-  return createDOMElement(
-    "div",
-    {
-      class: "number_input_box"
-    },
-    [
-      createDOMElement("label", {
+  return createDOMElement({
+    tag: "div",
+    class: "number_input_box",
+    children: [
+      createDOMElement({
+        tag: "label",
         class: "body_text",
         textContent: "보너스 번호"
       }),
-      createDOMElement(
-        "div",
-        {
-          class: "number_input_wrapper"
-        },
-        createDOMElement("input", {
-          id: "bonusNumberInput",
-          class: "number_input",
-          type: "number"
-        })
-      )
+      createDOMElement({
+        tag: "div",
+        class: "number_input_wrapper",
+        children: [
+          createDOMElement({
+            tag: "input",
+            id: "bonusNumberInput",
+            class: "number_input",
+            type: "number"
+          })
+        ]
+      })
     ]
-  );
+  });
 };
 const createWinningNumberInput = () => {
-  return createDOMElement(
-    "div",
-    {
-      class: "number_input_box"
-    },
-    [
-      createDOMElement("label", {
+  return createDOMElement({
+    tag: "div",
+    class: "number_input_box",
+    children: [
+      createDOMElement({
+        tag: "label",
         class: "body_text",
         textContent: "당첨 번호"
       }),
-      createDOMElement(
-        "div",
-        {
-          class: "number_input_wrapper"
-        },
-        Array.from({ length: LOTTO_RULE.lottoNumber.count }).map(
-          (_, index) => createDOMElement("input", {
+      createDOMElement({
+        tag: "div",
+        class: "number_input_wrapper",
+        children: Array.from({ length: LOTTO_RULE.lottoNumber.count }).map(
+          (_, index) => createDOMElement({
+            tag: "input",
             id: `winningNumberInput${index}`,
             class: "number_input",
             type: "number"
           })
         )
-      )
+      })
     ]
-  );
+  });
 };
 const createInputForm = () => {
-  return createDOMElement(
-    "form",
-    {
-      class: "number_input_form"
-    },
-    [
-      createDOMElement("h3", {
+  return createDOMElement({
+    tag: "form",
+    class: "number_input_form",
+    children: [
+      createDOMElement({
+        tag: "h3",
         class: "body_text",
         textContent: "지난 주 당첨번호 6개와 보너스 번호 1개를 입력해주세요."
       }),
-      createDOMElement(
-        "div",
-        {
-          class: "number_input_container"
-        },
-        [createWinningNumberInput(), createBonusNumberInput()]
-      ),
+      createDOMElement({
+        tag: "div",
+        class: "number_input_container",
+        children: [createWinningNumberInput(), createBonusNumberInput()]
+      }),
       createResultButton()
     ]
-  );
+  });
 };
 const WebOutput = {
   renderBodyWrapper() {
-    const bodyWrapper = createDOMElement(
-      "div",
-      {
-        class: "body_wrapper"
-      },
-      [createBodyTitle(), createPurchaseWrapper()]
-    );
+    const bodyWrapper = createDOMElement({
+      tag: "div",
+      class: "body_wrapper",
+      children: [createBodyTitle(), createPurchaseWrapper()]
+    });
     const main = document.querySelector(".body_container");
     main.appendChild(bodyWrapper);
   },
   renderLottoList() {
-    const lottoListWrapper = createDOMElement(
-      "div",
-      {
-        class: "lotto_list_wrapper"
-      },
-      [createLottoLength(), createLottoList(), createInputForm()]
-    );
+    const lottoListWrapper = createDOMElement({
+      tag: "div",
+      class: "lotto_list_wrapper",
+      children: [createLottoLength(), createLottoList(), createInputForm()]
+    });
     const bodyWrapper = document.querySelector(".body_wrapper");
     bodyWrapper.appendChild(lottoListWrapper);
   },
   renderResultModal(result) {
     if (document.querySelector(".modal_backdrop")) return;
-    const modalBackdrop = createDOMElement(
-      "div",
-      {
-        class: "modal_backdrop",
-        id: "modalBackdrop"
-      },
-      createDOMElement(
-        "div",
-        {
-          class: "modal_container"
-        },
-        [createCloseButton(), createModalBody(result)]
-      )
-    );
+    const modalBackdrop = createDOMElement({
+      tag: "div",
+      class: "modal_backdrop",
+      id: "modalBackdrop",
+      children: [
+        createDOMElement({
+          tag: "div",
+          class: "modal_container",
+          children: [createCloseButton(), createModalBody(result)]
+        })
+      ]
+    });
     document.body.appendChild(modalBackdrop);
   },
   disableButtons() {
