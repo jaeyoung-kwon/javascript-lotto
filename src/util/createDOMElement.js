@@ -1,4 +1,4 @@
-export const createDOMElement = (tag, props = {}, ...children) => {
+export const createDOMElement = ({ tag, children, ...props }) => {
   if (!tag) throw new Error("Tag is required");
 
   const element = document.createElement(tag);
@@ -17,9 +17,11 @@ export const createDOMElement = (tag, props = {}, ...children) => {
     element[key] = value;
   });
 
-  children.flat().forEach((child) => {
-    element.appendChild(child);
-  });
+  if (children) {
+    children.forEach((child) => {
+      element.appendChild(child);
+    });
+  }
 
   return element;
 };
